@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhuvaneswaran — Designer & Product Thinker</title>
+  <meta name="description" content="V&V Designer at Alstom. 3+ years shipping safety-critical DMIs for global railway systems. AI-native workflow. Business-first ownership.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080810;
+      --surface: #0d0d18;
+      --card: #11111e;
+      --card-hover: #15152a;
+      --border: rgba(255,255,255,0.05);
+      --border-hover: rgba(167,139,250,0.28);
+      --text: #e8e8f0;
+      --text-muted: #64647a;
+      --text-dim: #35354a;
+      --accent: #a78bfa;
+      --accent-bright: #c4b5fd;
+      --accent-dim: rgba(167,139,250,0.08);
+      --accent-glow: rgba(167,139,250,0.18);
+      --green: #4ade80;
+      --radius: 20px;
+      --radius-sm: 10px;
+      --nav-h: 64px;
+      --max-w: 1160px;
+      --gap: 130px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(8,8,16,0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 8px 20px;
+      border: 1px solid rgba(167,139,250,0.3);
+      border-radius: 100px;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(var(--nav-h) + 100px) 48px 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow-1 {
+      position: absolute;
+      top: -25%;
+      left: -15%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(109,40,217,0.14) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      bottom: -20%;
+      right: -10%;
+      width: 55%;
+      height: 55%;
+      background: radial-gradient(ellipse, rgba(167,139,250,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green);
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.2);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 36px;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 7.5vw, 92px);
+      font-weight: 900;
+      line-height: 1.01;
+      letter-spacing: -0.045em;
+      color: var(--text);
+      margin-bottom: 28px;
+      max-width: 15ch;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(120deg, var(--accent-bright) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 1.8vw, 19px);
+      color: var(--text-muted);
+      max-width: 58ch;
+      line-height: 1.72;
+      margin-bottom: 48px;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 80px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: all 0.25s;
+      letter-spacing: -0.01em;
+    }
+    .btn-primary:hover {
+      background: var(--accent-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(167,139,250,0.38);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      transition: all 0.25s;
+      letter-spacing: -0.01em;
+    }
+    .btn-secondary:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-right: 48px;
+    }
+    .stat:not(:last-child) {
+      margin-right: 48px;
+      border-right: 1px solid var(--border);
+      padding-right: 48px;
+    }
+    .stat-num {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── SHARED ── */
+    section { padding: var(--gap) 48px; }
+    .container { max-width: var(--max-w); margin: 0 auto; }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      color: var(--text);
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+    .section-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 54ch;
+      line-height: 1.68;
+      margin-bottom: 60px;
+    }
+
+    /* ── PILLARS ── */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+    }
+    .pillar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .pillar::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .pillar:hover {
+      border-color: var(--border-hover);
+      background: var(--card-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    }
+    .pillar:hover::before { opacity: 1; }
+
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(167,139,250,0.12);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 24px;
+    }
+    .pillar-title {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .pillar-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── CASE STUDIES ── */
+    #work { background: var(--surface); }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+    }
+    .case-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .case-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-7px);
+      box-shadow: 0 28px 70px rgba(0,0,0,0.55);
+    }
+
+    .case-visual {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      position: relative;
+    }
+    .case-visual-label {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      background: rgba(0,0,0,0.4);
+      padding: 4px 10px;
+      border-radius: 100px;
+      backdrop-filter: blur(8px);
+    }
+
+    .case-body { padding: 28px; }
+    .case-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .case-name {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+    .case-blurb {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .case-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--green);
+      background: rgba(74,222,128,0.07);
+      border: 1px solid rgba(74,222,128,0.16);
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .case-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 22px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .case-footer-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .case-arrow {
+      width: 32px;
+      height: 32px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(167,139,250,0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+    .case-card:hover .case-arrow {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: rotate(45deg);
+    }
+
+    /* ── WORKFLOW ── */
+    #process { }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 0;
+      position: relative;
+      margin-top: 8px;
+    }
+    .workflow::before {
+      content: '';
+      position: absolute;
+      top: 27px;
+      left: calc(10% + 4px);
+      right: calc(10% + 4px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-dim) 30%, var(--accent-dim) 70%, transparent);
+    }
+
+    .wf-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 12px;
+    }
+    .wf-icon {
+      width: 54px;
+      height: 54px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    .wf-step:hover .wf-icon {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: 0 0 28px var(--accent-glow);
+    }
+    .wf-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .wf-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .wf-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(167,139,250,0.12);
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--surface); }
+
+    .exp-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .exp-sidebar {
+      position: sticky;
+      top: calc(var(--nav-h) + 40px);
+    }
+    .exp-company {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .exp-location {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .exp-about {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .exp-timeline {
+      display: flex;
+      flex-direction: column;
+    }
+    .exp-item {
+      display: flex;
+      gap: 24px;
+      padding-bottom: 44px;
+      position: relative;
+    }
+    .exp-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .exp-node {
+      width: 40px;
+      height: 40px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .exp-item.active .exp-node {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .exp-right { flex: 1; }
+    .exp-period {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .exp-role {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .exp-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 16px;
+    }
+    .skill-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.3s;
+    }
+    .skill-group:hover { border-color: var(--border-hover); }
+    .skill-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-tag {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      background: var(--accent-dim);
+      border-color: rgba(167,139,250,0.2);
+      color: var(--accent-bright);
+    }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--surface); }
+    .contact-wrap { max-width: 680px; }
+    .contact-title {
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 900;
+      letter-spacing: -0.045em;
+      color: var(--text);
+      line-height: 1.04;
+      margin-bottom: 20px;
+    }
+    .contact-title em { font-style: normal; color: var(--accent); }
+    .contact-body {
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.68;
+      margin-bottom: 48px;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .c-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 22px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s;
+    }
+    .c-link:hover {
+      border-color: var(--border-hover);
+      background: var(--card-hover);
+      transform: translateX(6px);
+    }
+    .c-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-dim);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .c-info { flex: 1; }
+    .c-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .c-value {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .c-arr {
+      color: var(--text-dim);
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+    .c-link:hover .c-arr {
+      transform: translateX(4px);
+      color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer p { font-size: 13px; color: var(--text-dim); }
+
+    /* ── MODAL ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,6,14,0.93);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 24px 80px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 760px;
+      overflow: hidden;
+      transform: translateY(48px) scale(0.97);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    .overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+    .modal-top {
+      position: relative;
+      padding: 28px 28px 0;
+    }
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 16px;
+      transition: all 0.2s;
+      z-index: 1;
+    }
+    .modal-close:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+    .modal-vis {
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .modal-body {
+      padding: 40px 44px 52px;
+    }
+    .modal-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .modal-title {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .modal-summary {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.72;
+      margin-bottom: 36px;
+    }
+    .modal-sections { display: flex; flex-direction: column; gap: 28px; }
+    .ms-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .ms-body {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.72;
+    }
+    .ms-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ms-metric {
+      background: rgba(74,222,128,0.06);
+      border: 1px solid rgba(74,222,128,0.15);
+      border-radius: 10px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ms-metric-icon { font-size: 22px; }
+    .ms-metric-text {
+      font-size: 14px;
+      color: var(--green);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .modal-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: all 0.2s;
+    }
+    .modal-cta:hover {
+      background: var(--accent-bright);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(167,139,250,0.32);
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.in { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; }
+    .d4 { transition-delay: 0.32s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .hero { padding: calc(var(--nav-h) + 60px) 24px 64px; }
+      .pillars-grid,
+      .cases-grid,
+      .skills-grid { grid-template-columns: 1fr; }
+      .workflow {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .workflow::before { display: none; }
+      .exp-layout {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .exp-sidebar { position: static; }
+      .hero-stats { gap: 24px; flex-direction: column; }
+      .stat:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding-right: 0;
+        margin-right: 0;
+        padding-bottom: 24px;
+        margin-bottom: 0;
+      }
+      footer { flex-direction: column; gap: 8px; text-align: center; }
+      .modal-body { padding: 28px 24px 40px; }
+      .modal-title { font-size: 26px; }
+      .modal-vis { height: 200px; font-size: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Bhuvan<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in touch →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-inner">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Open to Product Manager & UX Lead roles
+    </div>
+
+    <h1>Interfaces where <em>failure</em> isn't an option.</h1>
+
+    <p class="hero-sub">
+      V&V Designer at <strong>Alstom</strong> — 3+ years shipping safety-critical Driver Machine Interfaces for live railway deployments across <strong>India and Paris</strong>. Now bringing that zero-error discipline and <strong>AI-native workflow</strong> to product leadership.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">View Work ↓</a>
+      <a href="mailto:bhuvaneswaran.b@outlook.com" class="btn-secondary">bhuvaneswaran.b@outlook.com</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Years at Alstom</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Continents deployed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Production errors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">8+</span>
+        <span class="stat-label">AI tools in workflow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section id="about">
+  <div class="container">
+    <p class="section-eyebrow">What I bring</p>
+    <h2 class="section-title">Three things I do<br>better than most.</h2>
+    <p class="section-desc">Built through years of designing under compliance pressure, testing with real operators, and shipping to live international deployments.</p>
+
+    <div class="pillars-grid">
+      <div class="pillar fade-up">
+        <div class="pillar-icon">🛡️</div>
+        <h3 class="pillar-title">Safety-Critical UX</h3>
+        <p class="pillar-desc">EU SIL-compliant design from the ground up. Every interaction validated to zero-error performance — the same discipline that keeps trains from colliding, now applied to product decisions.</p>
+      </div>
+      <div class="pillar fade-up d1">
+        <div class="pillar-icon">⚡</div>
+        <h3 class="pillar-title">AI-Native Workflow</h3>
+        <p class="pillar-desc">Figma Make, Google Stitch, Claude, v0, Framer AI, Cursor, Runway — I go from brief to validated prototype in hours, not weeks. AI removes friction between concept and evidence.</p>
+      </div>
+      <div class="pillar fade-up d2">
+        <div class="pillar-icon">📊</div>
+        <h3 class="pillar-title">Business-First Ownership</h3>
+        <p class="pillar-desc">Every design decision traced to operator safety, regulatory compliance, or measurable user outcome. I speak stakeholder and designer fluently — and translate between them without losing either.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="work">
+  <div class="container">
+    <p class="section-eyebrow">Selected work</p>
+    <h2 class="section-title">Projects with proof.</h2>
+    <p class="section-desc">Not just pretty screens — interfaces validated with real users, deployed in live systems, measured against real outcomes.</p>
+
+    <div class="cases-grid">
+
+      <div class="case-card fade-up" onclick="openModal('dmi')">
+        <div class="case-visual" style="background: linear-gradient(140deg, #150d30 0%, #2a1060 100%);">
+          🚆
+          <span class="case-visual-label">EU SIL</span>
+        </div>
+        <div class="case-body">
+          <p class="case-eyebrow">Safety-Critical · Railway · Compliance</p>
+          <h3 class="case-name">Alstom Driver Machine Interface</h3>
+          <p class="case-blurb">End-to-end DMI design for modern rail transport. Translating SIL-compliant specs into validated Figma prototypes — deployed live across India and Paris.</p>
+          <span class="case-chip">✓ Zero-error · 2 countries live</span>
+          <div class="case-footer">
+            <span class="case-footer-label">View case study</span>
+            <span class="case-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card fade-up d1" onclick="openModal('wearos')">
+        <div class="case-visual" style="background: linear-gradient(140deg, #0a1f10 0%, #0b4020 100%);">
+          ⌚
+          <span class="case-visual-label">UPI · Wear OS</span>
+        </div>
+        <div class="case-body">
+          <p class="case-eyebrow">Consumer · Wearable · UPI Payments</p>
+          <h3 class="case-name">GPay for Wear OS</h3>
+          <p class="case-blurb">India's first wearable-native UPI payment flow. Solving circular display constraints, glanceability, and LTE-based transfers on a form factor nobody had cracked yet.</p>
+          <span class="case-chip">✓ First wearable UPI flow in India</span>
+          <div class="case-footer">
+            <span class="case-footer-label">View case study</span>
+            <span class="case-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card fade-up d2" onclick="openModal('whatsapp')">
+        <div class="case-visual" style="background: linear-gradient(140deg, #001812 0%, #003020 100%);">
+          💬
+          <span class="case-visual-label">WCAG 2.1 AA</span>
+        </div>
+        <div class="case-body">
+          <p class="case-eyebrow">Consumer · Accessibility · WCAG 2.1</p>
+          <h3 class="case-name">WhatsApp WCAG Redesign</h3>
+          <p class="case-blurb">Redesigned WhatsApp's core interactions to WCAG 2.1 AA. Validated separate one-handed flows for left and right-handed users through structured usability testing.</p>
+          <span class="case-chip">✓ WCAG 2.1 AA · Dual-hand validated</span>
+          <div class="case-footer">
+            <span class="case-footer-label">View case study</span>
+            <span class="case-arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AI WORKFLOW -->
+<section id="process">
+  <div class="container">
+    <p class="section-eyebrow">How I work</p>
+    <h2 class="section-title">AI-native.<br>Human-validated.</h2>
+    <p class="section-desc">I use AI to collapse the gap between idea and tested prototype — not to replace design thinking, but to supercharge iteration speed.</p>
+
+    <div class="workflow">
+      <div class="wf-step fade-up">
+        <div class="wf-icon">📋</div>
+        <h4 class="wf-title">Brief & Scope</h4>
+        <p class="wf-desc">Translate business problems into design constraints and measurable success criteria.</p>
+        <div class="wf-tools">
+          <span class="tag">FigJam</span>
+          <span class="tag">Jira</span>
+        </div>
+      </div>
+      <div class="wf-step fade-up d1">
+        <div class="wf-icon">🔍</div>
+        <h4 class="wf-title">Research</h4>
+        <p class="wf-desc">User interviews, contextual inquiry, competitive analysis — synthesized with AI.</p>
+        <div class="wf-tools">
+          <span class="tag">Claude</span>
+          <span class="tag">Google analytics</span>
+        </div>
+      </div>
+      <div class="wf-step fade-up d2">
+        <div class="wf-icon">⚡</div>
+        <h4 class="wf-title">AI Prototype</h4>
+        <p class="wf-desc">High-fidelity in hours, not days. Rapid iteration before any usability investment.</p>
+        <div class="wf-tools">
+          <span class="tag">Figma Make</span>
+          <span class="tag">v0</span>
+          <span class="tag">Framer AI</span>
+          <span class="tag">Stitch</span>
+        </div>
+      </div>
+      <div class="wf-step fade-up d3">
+        <div class="wf-icon">🧪</div>
+        <h4 class="wf-title">Validate</h4>
+        <p class="wf-desc">Real users, structured sessions, task completion against defined criteria.</p>
+        <div class="wf-tools">
+          <span class="tag">Figma</span>
+          <span class="tag">Maze</span>
+        </div>
+      </div>
+      <div class="wf-step fade-up d4">
+        <div class="wf-icon">🚀</div>
+        <h4 class="wf-title">Ship</h4>
+        <p class="wf-desc">Dev-ready specs, interaction docs, edge cases covered, handoff done right.</p>
+        <div class="wf-tools">
+          <span class="tag">Figma</span>
+          <span class="tag">Cursor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="exp-layout">
+      <div class="exp-sidebar fade-up">
+        <p class="section-eyebrow">Experience</p>
+        <h2 class="exp-company">Alstom</h2>
+        <p class="exp-location">Bengaluru, India · Sep 2022 – Present</p>
+        <p class="exp-about">Global leader in sustainable mobility. I design safety-critical interfaces for Driver Machine Interfaces deployed across India and Europe — where a design error has life-critical consequences.</p>
+      </div>
+
+      <div class="exp-timeline">
+        <div class="exp-item active fade-up">
+          <div class="exp-node">⭐</div>
+          <div class="exp-right">
+            <p class="exp-period">Jul 2024 – Present</p>
+            <h3 class="exp-role">V&V Designer (UI/UX focus)</h3>
+            <p class="exp-desc">Led end-to-end DMI design for global railway deployments. Owned the full design-to-validation lifecycle — translating EU SIL-compliant signaling architectures into zero-error Figma prototypes. Conducted operator research sessions across India and Paris. Accelerated workflows using Figma Make, Google Stitch, and Claude — reducing prototyping iteration time significantly.</p>
+          </div>
+        </div>
+        <div class="exp-item fade-up d1">
+          <div class="exp-node">📐</div>
+          <div class="exp-right">
+            <p class="exp-period">Jul 2023 – Jun 2024</p>
+            <h3 class="exp-role">Post Graduate Engineer Trainee</h3>
+            <p class="exp-desc">Contributed to DMI design systems and usability validation frameworks. Bridged UX craft with safety-compliance requirements, learning the domain language of railway signaling and operator mental models.</p>
+          </div>
+        </div>
+        <div class="exp-item fade-up d2">
+          <div class="exp-node">🌱</div>
+          <div class="exp-right">
+            <p class="exp-period">Sep 2022 – Jun 2023</p>
+            <h3 class="exp-role">Anubhav Intern</h3>
+            <p class="exp-desc">Introduced to the intersection of safety engineering and UX design. Supported interface design and documentation for railway control systems, building foundation in compliance-driven product work.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-eyebrow">Skills</p>
+    <h2 class="section-title">Tools & expertise.</h2>
+    <p class="section-desc">Deep craft across design, research, and AI tooling — with the technical literacy to collaborate directly with engineers and the product sense to work with stakeholders.</p>
+
+    <div class="skills-grid">
+      <div class="skill-group fade-up">
+        <p class="skill-label">Design & Prototyping</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Framer</span>
+          <span class="skill-tag">FigJam</span>
+          <span class="skill-tag">Wireframing</span>
+          <span class="skill-tag">High-fidelity Prototyping</span>
+          <span class="skill-tag">Design Systems</span>
+          <span class="skill-tag">Visual Design</span>
+          <span class="skill-tag">Typography</span>
+          <span class="skill-tag">Microinteractions</span>
+        </div>
+      </div>
+      <div class="skill-group fade-up d1">
+        <p class="skill-label">AI Tools</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Figma Make</span>
+          <span class="skill-tag">Google Stitch</span>
+          <span class="skill-tag">Claude</span>
+          <span class="skill-tag">Framer AI</span>
+          <span class="skill-tag">v0</span>
+          <span class="skill-tag">Cursor</span>
+          <span class="skill-tag">Runway</span>
+          <span class="skill-tag">Midjourney</span>
+        </div>
+      </div>
+      <div class="skill-group fade-up d2">
+        <p class="skill-label">Research & Testing</p>
+        <div class="skill-tags">
+          <span class="skill-tag">User Research</span>
+          <span class="skill-tag">Usability Testing</span>
+          <span class="skill-tag">Contextual Inquiry</span>
+          <span class="skill-tag">A/B Testing</span>
+          <span class="skill-tag">User Interviews</span>
+          <span class="skill-tag">Ethnographic Studies</span>
+        </div>
+      </div>
+      <div class="skill-group fade-up">
+        <p class="skill-label">Accessibility & Standards</p>
+        <div class="skill-tags">
+          <span class="skill-tag">WCAG 2.1</span>
+          <span class="skill-tag">EU SIL Compliance</span>
+          <span class="skill-tag">Inclusive Design</span>
+          <span class="skill-tag">One-handed Patterns</span>
+        </div>
+      </div>
+      <div class="skill-group fade-up d1">
+        <p class="skill-label">Product & Strategy</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Agile</span>
+          <span class="skill-tag">Product Roadmapping</span>
+          <span class="skill-tag">KPIs</span>
+          <span class="skill-tag">Stakeholder Management</span>
+          <span class="skill-tag">Data-Driven Decisions</span>
+          <span class="skill-tag">Google Analytics</span>
+        </div>
+      </div>
+      <div class="skill-group fade-up d2">
+        <p class="skill-label">Technical</p>
+        <div class="skill-tags">
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">User Flows</span>
+          <span class="skill-tag">Site Mapping</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <p class="section-eyebrow">Get in touch</p>
+      <h2 class="contact-title">Let's build something<br><em>worth shipping.</em></h2>
+      <p class="contact-body">Open to Product Manager and UX Lead roles in Bengaluru or remote. I bring safety-critical rigor, AI-accelerated workflows, and a track record of zero-error delivery.</p>
+
+      <div class="contact-links">
+        <a href="mailto:bhuvaneswaran.b@outlook.com" class="c-link">
+          <div class="c-icon">✉️</div>
+          <div class="c-info">
+            <p class="c-label">Email</p>
+            <p class="c-value">bhuvaneswaran.b@outlook.com</p>
+          </div>
+          <span class="c-arr">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/bhuvaneswaran-b-9576651ab" target="_blank" rel="noopener" class="c-link">
+          <div class="c-icon">💼</div>
+          <div class="c-info">
+            <p class="c-label">LinkedIn</p>
+            <p class="c-value">linkedin.com/in/bhuvaneswaran-b</p>
+          </div>
+          <span class="c-arr">→</span>
+        </a>
+        <a href="tel:+918667342750" class="c-link">
+          <div class="c-icon">📱</div>
+          <div class="c-info">
+            <p class="c-label">Phone</p>
+            <p class="c-value">+91 86673 42750</p>
+          </div>
+          <span class="c-arr">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Bhuvaneswaran · Bengaluru, India</p>
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-top">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-vis" id="modal-vis"></div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  /* ── SCROLL ANIMATIONS ── */
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+  /* ── CASE STUDY DATA ── */
+  const CASES = {
+    dmi: {
+      eyebrow: 'Safety-Critical · Railway · EU SIL Compliance',
+      title: 'Alstom Driver Machine Interface',
+      summary: 'End-to-end design of safety-critical Driver Machine Interfaces (DMIs) for modern rail transport. Every pixel validated under EU SIL compliance requirements — where interface errors can have life-critical consequences.',
+      bg: 'linear-gradient(140deg, #150d30 0%, #2a1060 100%)',
+      icon: '🚆',
+      sections: [
+        {
+          label: 'The Problem',
+          body: 'Railway DMIs must communicate complex signaling states to operators in real time, under operational stress, across all visibility conditions — with zero room for misinterpretation. Existing interfaces relied on dense symbolic notation validated by engineers, not operators.'
+        },
+        {
+          label: 'My Approach',
+          body: 'Translated EU SIL-compliant signaling architectures into high-fidelity Figma prototypes. Conducted usability sessions with train operators across India and Paris. Iterated through cross-functional validation with safety engineers — each cycle tested against defined failure scenarios before advancing to the next.'
+        },
+        { label: 'AI Tooling Used', tools: ['Figma Make', 'Claude', 'FigJam', 'Figma'] },
+        { label: 'Outcome', metric: 'Zero-error performance validated across all test scenarios · Live deployments in India + Paris · Full EU SIL compliance' }
+      ],
+      link: null
+    },
+    wearos: {
+      eyebrow: 'Consumer · Wearable · UPI Payments',
+      title: 'GPay for Wear OS',
+      summary: "India's first wearable-native UPI payment flow — designed specifically for the Wear OS circular display. Solving constraints nobody had addressed at scale in India's ₹100T+ payment ecosystem.",
+      bg: 'linear-gradient(140deg, #0a1f10 0%, #0b4020 100%)',
+      icon: '⌚',
+      sections: [
+        {
+          label: 'The Problem',
+          body: "India's UPI ecosystem was built entirely for rectangular smartphone screens. No wearable-native flow existed — existing apps either mirrored phone UI (unusable on circular displays) or stripped all functionality. The challenge: design a secure, glanceable payment flow on a 1.4-inch circular display with no keyboard and LTE independence."
+        },
+        {
+          label: 'My Approach',
+          body: 'Designed from circular display constraints outward — glanceability-first information hierarchy, LTE-based UPI without phone tethering, and receiver ID input on a smartwatch form factor. Prototyped in Figma with real Wear OS design guidelines. Validated through structured usability sessions with defined task completion metrics.'
+        },
+        { label: 'AI Tooling Used', tools: ['Figma Make', 'Claude', 'Midjourney', 'Figma'] },
+        { label: 'Outcome', metric: 'First-of-kind wearable UPI flow for India · Addresses the gap in a ₹100T+ annual transaction ecosystem · Complete end-to-end flow validated' }
+      ],
+      link: 'https://www.figma.com/proto/QjeLp2mr35ebNZaUFFBmsK/GPay-For-WearOS?node-id=48-253&p=f&t=drugQp56E2WWUxfH-1&scaling=min-zoom&content-scaling=fixed&page-id=48%3A223&starting-point-node-id=48%3A253'
+    },
+    whatsapp: {
+      eyebrow: 'Consumer · Accessibility · WCAG 2.1',
+      title: 'WhatsApp WCAG Redesign',
+      summary: "Redesigned WhatsApp's core interaction patterns to meet WCAG 2.1 AA accessibility standards — going beyond compliance to solve real usability gaps for one-handed users at massive scale.",
+      bg: 'linear-gradient(140deg, #001812 0%, #003020 100%)',
+      icon: '💬',
+      sections: [
+        {
+          label: 'The Problem',
+          body: 'WhatsApp — used by 500M+ people in India alone — had significant accessibility gaps across its core flows. Key interactions required two hands by default, with no accommodation for motor constraints or single-hand usage patterns. WCAG 2.1 AA compliance was not met across compose, reply, media, and navigation flows.'
+        },
+        {
+          label: 'My Approach',
+          body: 'Audited WhatsApp against WCAG 2.1 AA criteria, identified specific interaction pattern failures, and redesigned core flows for one-handed operation. Designed and validated separate optimized interaction patterns for left and right-handed users through structured usability testing with defined task completion metrics.'
+        },
+        { label: 'AI Tooling Used', tools: ['Figma Make', 'Claude', 'Framer AI', 'Figma'] },
+        { label: 'Outcome', metric: 'WCAG 2.1 AA compliant across all redesigned flows · Separate validated flows for left and right-handed users · Improved task completion rates in usability testing' }
+      ],
+      link: 'https://medium.com/@babubhuvaneswaran/reimagining-whatsapp-for-one-handed-usability-50622dfbe3bd'
+    }
+  };
+
+  /* ── MODAL ── */
+  function openModal(key) {
+    const d = CASES[key];
+    const vis = document.getElementById('modal-vis');
+    const body = document.getElementById('modal-body');
+
+    vis.style.background = d.bg;
+    vis.textContent = d.icon;
+
+    let html = `
+      <p class="modal-eyebrow">${d.eyebrow}</p>
+      <h2 class="modal-title">${d.title}</h2>
+      <p class="modal-summary">${d.summary}</p>
+      <div class="modal-sections">
+    `;
+
+    d.sections.forEach(s => {
+      html += `<div><p class="ms-label">${s.label}</p>`;
+      if (s.body)   html += `<p class="ms-body">${s.body}</p>`;
+      if (s.tools)  html += `<div class="ms-tools">${s.tools.map(t => `<span class="tag">${t}</span>`).join('')}</div>`;
+      if (s.metric) html += `<div class="ms-metric"><span class="ms-metric-icon">✅</span><p class="ms-metric-text">${s.metric}</p></div>`;
+      html += `</div>`;
+    });
+
+    html += `</div>`;
+    if (d.link) html += `<a href="${d.link}" target="_blank" rel="noopener" class="modal-cta">View full case study ↗</a>`;
+
+    body.innerHTML = html;
+    document.getElementById('overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('overlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
