@@ -1865,21 +1865,22 @@
       }, 900);
     }
 
-    /* Scroll event — fast trigger on desktop */
-    window.addEventListener('scroll', markScrollActive, { passive: true });
+    /* Scroll + touch events — touchmove fires every frame of a finger drag on mobile */
+    window.addEventListener('scroll',    markScrollActive, { passive: true });
+    window.addEventListener('touchmove', markScrollActive, { passive: true });
+    window.addEventListener('touchstart',markScrollActive, { passive: true });
 
     requestAnimationFrame(function loop(ts) {
       if (!lastTs) lastTs = ts;
       const dt = ts - lastTs; lastTs = ts;
 
-      /* Frame-by-frame scroll detection — catches mobile touch scroll
-         which fires events only at gesture start/end, not continuously */
+      /* Also compare scrollY each frame as a final fallback */
       const sy = window.scrollY;
       if (Math.abs(sy - prevScrollY) > 0.5) { prevScrollY = sy; markScrollActive(); }
 
       /* ── 1. Shape morph via scroll ── */
       if (active) {
-        cur = lerpKf(cur, kfAt(scrollP()), 0.14);
+        cur = lerpKf(cur, kfAt(scrollP()), 0.22);
       } else {
         idleStep += dt;
         if (idleStep >= 5000) { idleStep = 0; idleIdx = (idleIdx+1)%N; }
