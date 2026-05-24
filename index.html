@@ -1066,12 +1066,13 @@
     .scroll-progress {
       position: fixed;
       top: 0; left: 0;
-      height: 2px;
+      height: 4px;
       background: linear-gradient(90deg, var(--accent), #EAB308, #EF4444);
-      box-shadow: 0 0 10px rgba(220,38,38,0.4);
+      box-shadow: 0 0 12px rgba(220,38,38,0.55), 0 0 4px rgba(234,179,8,0.4);
       z-index: 1001;
       width: 0%;
       transition: width 0.08s linear;
+      border-radius: 0 2px 2px 0;
     }
 
     /* ── NAV ACTIVE UNDERLINE ── */
