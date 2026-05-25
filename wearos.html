@@ -684,31 +684,106 @@
        SECTION 8 — USER FLOW
     ══════════════════════════════════ */
     .userflow { background: var(--md-bg); }
-    .flow-chart { display: flex; flex-direction: column; gap: 0; }
-    .flow-row { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
-    .flow-node {
-      background: var(--md-surf-1);
-      border: 1px solid var(--md-outline);
-      border-radius: var(--r-sm); padding: 10px 16px; text-align: center;
-      min-width: 110px;
+
+    /* Entry row: Start → Payment Options */
+    .flow-entry { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 0; }
+    .flow-start-node {
+      padding: 10px 20px;
+      border-radius: 100px;
+      background: rgba(103,80,164,0.22);
+      border: 1.5px solid rgba(208,188,255,0.35);
+      font-size: 12px; font-weight: 700; color: var(--md-primary);
+      letter-spacing: 0.04em; white-space: nowrap;
     }
-    .flow-node.start { border-color: rgba(208,188,255,0.4); background: rgba(103,80,164,0.2); }
-    .flow-node.success { border-color: rgba(129,201,149,0.4); background: rgba(129,201,149,0.1); }
-    .flow-node.error { border-color: var(--md-outline); background: var(--md-surf-1); opacity: 0.55; }
-    .flow-node-title { font-size: 12px; font-weight: 500; color: var(--md-on-surface); }
-    .flow-node-sub   { font-size: 10px; color: var(--md-on-surface-var); margin-top: 2px; opacity: 0.7; }
-    .flow-node.start .flow-node-title { color: var(--md-primary); }
-    .flow-node.success .flow-node-title { color: #81C995; }
-    .flow-arr { font-size: 16px; color: var(--md-on-surface-var); opacity: 0.3; padding: 0 8px; }
-    .flow-arr-down { font-size: 16px; color: var(--md-on-surface-var); opacity: 0.25; text-align: center; padding: 8px 0; }
+    .flow-hub {
+      padding: 14px 28px;
+      border-radius: 100px;
+      background: rgba(79,61,143,0.3);
+      border: 1.5px solid rgba(208,188,255,0.45);
+      text-align: center; white-space: nowrap;
+    }
+    .flow-hub-title { font-size: 13px; font-weight: 600; color: var(--md-primary); }
+    .flow-hub-sub { font-size: 10px; color: var(--md-on-surface-var); margin-top: 2px; opacity: 0.8; }
+    .flow-h-arr { font-size: 18px; color: var(--md-on-surface-var); opacity: 0.35; padding: 0 10px; }
+
+    /* Split connector */
+    .flow-split { position: relative; height: 44px; margin: 0 auto; max-width: 860px; }
+    .flow-split-hline {
+      position: absolute; top: 0; left: 16.67%; right: 16.67%;
+      height: 1px; background: rgba(208,188,255,0.18);
+    }
+    .flow-split-drops { position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      display: flex; justify-content: space-between; padding: 0 calc(16.67% - 1px); }
+    .flow-split-drop { display: flex; flex-direction: column; align-items: center; }
+    .flow-split-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(208,188,255,0.35); margin-bottom: 4px; }
+    .flow-split-line { flex: 1; width: 1px; background: rgba(208,188,255,0.18); }
+    .flow-split-caret { color: rgba(208,188,255,0.35); font-size: 10px; }
+
+    /* 3-lane grid */
+    .flow-lanes {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      border: 1px solid var(--md-outline); border-radius: 20px; overflow: hidden;
+      max-width: 860px; margin: 0 auto;
+    }
+    .flow-lane {
+      padding: 20px 16px 24px;
+      border-right: 1px solid var(--md-outline);
+      display: flex; flex-direction: column; align-items: stretch;
+    }
+    .flow-lane:last-child { border-right: none; }
+
+    .lane-header {
+      text-align: center; padding: 6px 10px; border-radius: 100px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .lane-header.lh-tap { background: rgba(208,188,255,0.1); color: var(--md-primary); }
+    .lane-header.lh-upi { background: rgba(103,80,164,0.18); color: var(--md-on-prim-cont); }
+    .lane-header.lh-bal { background: rgba(129,201,149,0.1); color: #81C995; }
+
+    .lane-step {
+      background: var(--md-surf-1); border: 1px solid var(--md-outline);
+      border-radius: 12px; padding: 10px 12px; text-align: center;
+    }
+    .lane-step-title { font-size: 12px; font-weight: 500; color: var(--md-on-surface); }
+    .lane-step-sub { font-size: 10px; color: var(--md-on-surface-var); margin-top: 2px; opacity: 0.7; }
+    .lane-step.ls-success { border-color: rgba(129,201,149,0.45); background: rgba(129,201,149,0.09); }
+    .lane-step.ls-success .lane-step-title { color: #81C995; }
+    .lane-step.ls-error { border-color: rgba(207,102,121,0.3); background: rgba(207,102,121,0.06); opacity: 0.75; }
+    .lane-step.ls-error .lane-step-title { color: #CF6679; }
+    .lane-step.ls-end {
+      border-color: rgba(207,102,121,0.35); background: rgba(207,102,121,0.1);
+      border-radius: 100px; padding: 8px 12px;
+    }
+    .lane-step.ls-end .lane-step-title { color: #CF6679; font-size: 11px; }
+
+    .lane-arr {
+      text-align: center; color: rgba(208,188,255,0.25);
+      font-size: 13px; padding: 5px 0; flex-shrink: 0;
+    }
+    .lane-fork { display: flex; gap: 6px; }
+    .lane-fork .lane-step { flex: 1; }
+    .lane-fork-arr { display: flex; padding: 5px 0; gap: 0; }
+    .lane-fork-arr span { flex: 1; text-align: center; font-size: 10px;
+      color: rgba(208,188,255,0.22); font-family: 'Roboto Mono', monospace; }
+
+    /* Legend */
     .flow-legend {
-      display: flex; gap: 24px; justify-content: center; margin-top: 40px; flex-wrap: wrap;
+      display: flex; gap: 24px; justify-content: center; margin-top: 32px; flex-wrap: wrap;
     }
     .flow-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--md-on-surface-var); }
     .fl-dot { width: 8px; height: 8px; border-radius: 50%; }
     .fl-purple { background: var(--md-primary); }
     .fl-green  { background: #81C995; }
-    .fl-muted  { background: var(--md-on-surface-var); opacity: 0.4; }
+    .fl-red    { background: #CF6679; }
+
+    @media (max-width: 700px) {
+      .flow-lanes { grid-template-columns: 1fr; }
+      .flow-lane { border-right: none; border-bottom: 1px solid var(--md-outline); }
+      .flow-lane:last-child { border-bottom: none; }
+      .flow-hub { padding: 12px 18px; }
+      .flow-split { display: none; }
+    }
 
     /* ══════════════════════════════════
        SECTION 9 — VALIDATION
@@ -1351,42 +1426,129 @@
     <div class="sec-chip fade-up">User Flow</div>
     <h2 class="md-headline-lg fade-up d1" style="margin-bottom:40px;">Complete journey map.</h2>
 
-    <div class="flow-chart fade-up d2">
-      <div class="flow-row">
-        <div class="flow-node start"><div class="flow-node-title">Open App</div><div class="flow-node-sub">Watch tap</div></div>
-        <div class="flow-arr">→</div>
-        <div class="flow-node"><div class="flow-node-title">Home Menu</div><div class="flow-node-sub">3 options</div></div>
-        <div class="flow-arr">→</div>
-        <div class="flow-node"><div class="flow-node-title">Choose Flow</div><div class="flow-node-sub">Tap / Send / Balance</div></div>
-      </div>
-      <div class="flow-arr-down">↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
-      <div class="flow-row">
-        <div class="flow-node"><div class="flow-node-title">Hold to NFC</div><div class="flow-node-sub">Tap to Pay path</div></div>
-        <div class="flow-arr" style="visibility:hidden;">→</div>
-        <div class="flow-node"><div class="flow-node-title">Select Contact</div><div class="flow-node-sub">Send Money path</div></div>
-        <div class="flow-arr" style="visibility:hidden;">→</div>
-        <div class="flow-node"><div class="flow-node-title">Enter PIN</div><div class="flow-node-sub">Balance path</div></div>
-      </div>
-      <div class="flow-arr-down">↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-      <div class="flow-row">
-        <div class="flow-node success"><div class="flow-node-title">✓ NFC Success</div></div>
-        <div class="flow-arr" style="visibility:hidden;">→</div>
-        <div class="flow-node"><div class="flow-node-title">Amount → PIN</div><div class="flow-node-sub">Numpad entry</div></div>
-        <div class="flow-arr" style="visibility:hidden;">→</div>
-        <div class="flow-node success"><div class="flow-node-title">✓ Balance View</div></div>
-      </div>
-      <div class="flow-arr-down" style="visibility:hidden;">↓</div>
-      <div class="flow-row" style="justify-content:center;gap:24px;">
-        <div class="flow-node error"><div class="flow-node-title">✕ NFC Failed</div><div class="flow-node-sub">Retry prompt</div></div>
-        <div class="flow-node success" style="min-width:160px;"><div class="flow-node-title">✓ Payment Sent</div></div>
-        <div class="flow-node error"><div class="flow-node-title">✕ Wrong PIN</div><div class="flow-node-sub">2 retries left</div></div>
+    <!-- Entry: Start → Payment Options -->
+    <div class="flow-entry fade-up d2" style="margin-bottom:0;">
+      <div class="flow-start-node">Start</div>
+      <div class="flow-h-arr">→</div>
+      <div class="flow-hub">
+        <div class="flow-hub-title">Payment Options</div>
+        <div class="flow-hub-sub">Tap & Pay · UPI · Balance</div>
       </div>
     </div>
 
-    <div class="flow-legend fade-up d3">
-      <div class="flow-legend-item"><div class="fl-dot fl-purple"></div> Entry point</div>
+    <!-- Split connector -->
+    <div class="flow-split fade-up d2">
+      <div class="flow-split-hline"></div>
+      <div class="flow-split-drops">
+        <div class="flow-split-drop"><div class="flow-split-dot"></div><div class="flow-split-line"></div><div class="flow-split-caret">↓</div></div>
+        <div class="flow-split-drop"><div class="flow-split-dot"></div><div class="flow-split-line"></div><div class="flow-split-caret">↓</div></div>
+        <div class="flow-split-drop"><div class="flow-split-dot"></div><div class="flow-split-line"></div><div class="flow-split-caret">↓</div></div>
+      </div>
+    </div>
+
+    <!-- 3 lanes -->
+    <div class="flow-lanes fade-up d3">
+
+      <!-- LANE 1: Tap & Pay -->
+      <div class="flow-lane">
+        <div class="lane-header lh-tap">Tap &amp; Pay</div>
+
+        <div class="lane-step">
+          <div class="lane-step-title">Cards</div>
+          <div class="lane-step-sub">Select payment card</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step">
+          <div class="lane-step-title">Tap Against POS</div>
+          <div class="lane-step-sub">Hold watch to machine</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-fork">
+          <div class="lane-step ls-success">
+            <div class="lane-step-title">✓ Payment Successful</div>
+          </div>
+          <div class="lane-step ls-error">
+            <div class="lane-step-title">✕ Payment Failed</div>
+          </div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step ls-end">
+          <div class="lane-step-title">End</div>
+        </div>
+      </div>
+
+      <!-- LANE 2: UPI Payment -->
+      <div class="flow-lane">
+        <div class="lane-header lh-upi">UPI Payment</div>
+
+        <div class="lane-step">
+          <div class="lane-step-title">Enter UPI / Select Contact</div>
+          <div class="lane-step-sub">Saved contacts or type UPI ID</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step">
+          <div class="lane-step-title">Enter Amount</div>
+          <div class="lane-step-sub">Numpad entry</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step">
+          <div class="lane-step-title">Select Bank</div>
+          <div class="lane-step-sub">Saved accounts</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step">
+          <div class="lane-step-title">Enter UPI PIN</div>
+          <div class="lane-step-sub">6-digit numpad</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-fork">
+          <div class="lane-step ls-success">
+            <div class="lane-step-title">✓ Payment Successful</div>
+          </div>
+          <div class="lane-step ls-error">
+            <div class="lane-step-title">✕ Payment Failed</div>
+          </div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step ls-end">
+          <div class="lane-step-title">End</div>
+        </div>
+      </div>
+
+      <!-- LANE 3: Check Balance -->
+      <div class="flow-lane">
+        <div class="lane-header lh-bal">Check Balance</div>
+
+        <div class="lane-step">
+          <div class="lane-step-title">Saved Bank Accounts</div>
+          <div class="lane-step-sub">Select bank</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step">
+          <div class="lane-step-title">Enter UPI PIN</div>
+          <div class="lane-step-sub">6-digit numpad</div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-fork">
+          <div class="lane-step ls-success">
+            <div class="lane-step-title">✓ Balance Shown</div>
+          </div>
+          <div class="lane-step ls-error">
+            <div class="lane-step-title">✕ Wrong PIN</div>
+          </div>
+        </div>
+        <div class="lane-arr">↓</div>
+        <div class="lane-step ls-end">
+          <div class="lane-step-title">End</div>
+        </div>
+      </div>
+
+    </div><!-- end .flow-lanes -->
+
+    <div class="flow-legend fade-up d4">
+      <div class="flow-legend-item"><div class="fl-dot fl-purple"></div> Entry / step</div>
       <div class="flow-legend-item"><div class="fl-dot fl-green"></div> Success state</div>
-      <div class="flow-legend-item"><div class="fl-dot fl-muted"></div> Error / retry</div>
+      <div class="flow-legend-item"><div class="fl-dot fl-red"></div> Error / retry</div>
     </div>
   </div>
 </section>
