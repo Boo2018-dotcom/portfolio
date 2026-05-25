@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPI on WearOS — Bhuvaneswaran B</title>
+  <meta name="description" content="Designing India's first native UPI experience for WearOS — where 500M+ UPI users meet 50M+ smartwatch owners.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23DC2626'/%3E%3Ctext x='16' y='23' font-family='Georgia%2Cserif' font-size='20' font-weight='900' fill='%23FAF7F0' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+  <meta property="og:title" content="UPI on WearOS — Case Study by Bhuvaneswaran B">
+  <meta property="og:description" content="Designing India's first native UPI experience for WearOS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:            #FAF7F0;
+      --bg-dark:       #0b0806;
+      --bg-dark-2:     #110d09;
+      --text:          #1A1200;
+      --text-light:    #EDE5D8;
+      --text-muted:    #6B5E38;
+      --text-muted-lt: #A89880;
+      --accent:        #DC2626;
+      --accent-bright: #EF4444;
+      --accent-dim:    rgba(220,38,38,0.10);
+      --accent-glow:   rgba(220,38,38,0.25);
+      --amber:         #8B6914;
+      --amber-bright:  #EAB308;
+      --border:        rgba(0,0,0,0.09);
+      --border-lt:     rgba(255,255,255,0.10);
+      --card:          rgba(255,255,255,0.72);
+      --card-dark:     rgba(255,255,255,0.05);
+      --radius:        8px;
+      --max-w:         1100px;
+      --nav-h:         76px;
+    }
+
+    html { scroll-behavior: smooth; background: var(--bg-dark); }
+    body {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    body.loaded { opacity: 1; }
+    h1,h2,h3,h4 { font-family: 'Orbitron', sans-serif; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 16px; left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 900px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: rgba(11,8,6,0.55);
+      backdrop-filter: blur(24px) saturate(1.6);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 100px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.06) inset;
+      z-index: 100;
+    }
+    .nav-back {
+      font-size: 13px; font-weight: 500;
+      color: var(--text-muted-lt);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: #fff; }
+    .nav-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.45);
+      text-transform: uppercase;
+    }
+    .nav-cta-sm {
+      font-size: 12px; font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 6px 16px;
+      border: 1px solid rgba(220,38,38,0.35);
+      border-radius: 100px;
+      background: rgba(220,38,38,0.07);
+      transition: all 0.2s;
+    }
+    .nav-cta-sm:hover { background: rgba(220,38,38,0.15); border-color: var(--accent); }
+
+    /* ── SCROLL PROGRESS ── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--amber-bright), var(--accent-bright));
+      box-shadow: 0 0 12px rgba(220,38,38,0.55);
+      z-index: 1001; width: 0%;
+      transition: width 0.08s linear;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* ── SECTION BASE ── */
+    .s-light { background: var(--bg); color: var(--text); }
+    .s-dark  { background: var(--bg-dark); color: var(--text-light); }
+    .s-dark2 { background: var(--bg-dark-2); color: var(--text-light); }
+    section { position: relative; z-index: 1; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 48px; }
+
+    /* ── EYEBROW / LABELS ── */
+    .eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .eyebrow-lt { color: rgba(220,38,38,0.75); }
+    .section-h {
+      font-size: clamp(26px, 3.2vw, 42px);
+      font-weight: 900; letter-spacing: -0.015em;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 17px; line-height: 1.72;
+      max-width: 56ch; margin-bottom: 56px;
+    }
+    .s-dark  .section-sub,
+    .s-dark2 .section-sub { color: var(--text-muted-lt); }
+    .s-light .section-sub { color: var(--text-muted); }
+
+    /* ── FADE ANIMATIONS ── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .fade-up.in { opacity: 1; transform: none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s}
+    .d4{transition-delay:.4s} .d5{transition-delay:.5s}
+
+    /* ══════════════════════════════════════
+       SECTION 1 — HERO
+    ══════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      background: var(--bg-dark);
+      display: flex; align-items: center;
+      padding: calc(var(--nav-h) + 60px) 48px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(220,38,38,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 30%, rgba(139,105,20,0.10) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      max-width: var(--max-w); margin: 0 auto; width: 100%;
+      position: relative; z-index: 1;
+    }
+    .hero-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+    .badge-sm {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.04);
+    }
+    .badge-red {
+      border-color: rgba(220,38,38,0.4);
+      color: #EF4444;
+      background: rgba(220,38,38,0.08);
+    }
+    .hero h1 {
+      font-size: clamp(32px, 4.5vw, 60px);
+      font-weight: 900; line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: #fff; margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(120deg, var(--amber-bright) 0%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 1.6vw, 18px);
+      color: var(--text-muted-lt); line-height: 1.72;
+      margin-bottom: 36px; max-width: 46ch;
+    }
+    .hero-meta {
+      display: flex; gap: 28px; flex-wrap: wrap;
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .hero-meta-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+    .hero-meta-val   { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+    .btn-primary {
+      font-size: 14px; font-weight: 600;
+      padding: 12px 28px; border-radius: 100px;
+      background: var(--accent); color: #fff;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent-bright); transform: translateY(-1px); }
+    .btn-secondary {
+      font-size: 14px; font-weight: 600;
+      padding: 12px 28px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.45); color: #fff; transform: translateY(-1px); }
+
+    /* Watch cluster */
+    .watch-cluster {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    .watch-frame {
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: #111;
+      border: 7px solid #252525;
+      box-shadow: 0 0 0 2px #1a1a1a, 0 24px 72px rgba(0,0,0,0.7),
+                  0 0 48px rgba(220,38,38,0.12) inset;
+      position: relative; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .watch-frame.lg { width: 240px; height: 240px; border-width: 8px; }
+    .watch-frame.sm { width: 160px; height: 160px; border-width: 6px; }
+    .watch-screen {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 20px; text-align: center;
+    }
+    .ws-home { background: linear-gradient(160deg, #0e0e0e 0%, #1a0808 100%); }
+    .ws-contact { background: linear-gradient(160deg, #0a0a0a 0%, #0e0a06 100%); }
+    .ws-amount  { background: linear-gradient(160deg, #0a0606 0%, #150505 100%); }
+    .ws-pin     { background: linear-gradient(160deg, #080808 0%, #0e0606 100%); }
+    .ws-success { background: linear-gradient(160deg, #040a04 0%, #0a1a04 40%, #0e0a00 100%); }
+    .ws-balance { background: linear-gradient(160deg, #0a0806 0%, #150e04 100%); }
+    .ws-tap     { background: linear-gradient(160deg, #0a0a14 0%, #0a0410 100%); }
+
+    /* Watch screen content elements */
+    .wl { font-family: 'Space Grotesk', sans-serif; line-height: 1.3; }
+    .wl-time { font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+    .wl-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .wl-sub   { font-size: 10px; color: rgba(255,255,255,0.45); }
+    .wl-amount-big { font-family: 'Orbitron',sans-serif; font-size: 22px; font-weight: 900; color: #fff; }
+    .wl-currency { font-size: 12px; color: rgba(255,255,255,0.5); }
+    .wl-dots { display: flex; gap: 8px; justify-content: center; margin: 8px 0; }
+    .wl-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+    .wl-dot.filled { background: var(--accent); }
+    .wl-check { font-size: 32px; color: #4ade80; line-height: 1; margin-bottom: 6px; }
+    .wl-nfc { font-size: 22px; margin-bottom: 4px; }
+
+    .watch-menu { display: flex; flex-direction: column; gap: 7px; width: 100%; }
+    .watch-menu-item {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 20px; padding: 7px 10px;
+      font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 500;
+    }
+    .watch-menu-item.active { background: rgba(220,38,38,0.25); color: #fff; }
+    .watch-menu-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .watch-menu-dot.amber { background: var(--amber-bright); }
+    .watch-menu-dot.muted { background: rgba(255,255,255,0.3); }
+
+    .watch-numpad {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 4px; width: 100%; margin-top: 6px;
+    }
+    .wn-btn {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.09);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #fff;
+    }
+    .wn-btn.red { background: var(--accent); }
+    .wn-btn.ghost { background: transparent; color: rgba(255,255,255,0.35); font-size: 10px; }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2.4s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ══════════════════════════════════════
+       SECTION 2 — PROBLEM
+    ══════════════════════════════════════ */
+    .problem { padding: 100px 0; background: var(--bg-dark); }
+    .story-quote {
+      font-size: clamp(17px,2vw,22px); line-height: 1.7;
+      color: rgba(255,255,255,0.75);
+      font-style: italic; font-weight: 300;
+      border-left: 3px solid var(--accent);
+      padding-left: 28px; margin-bottom: 56px;
+      max-width: 60ch;
+    }
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; margin-bottom: 48px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .stat-cell {
+      padding: 40px 32px; text-align: center;
+      background: rgba(255,255,255,0.03);
+    }
+    .stat-cell:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.06); }
+    .stat-n {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(36px,5vw,60px); font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, #fff 0%, var(--accent-bright) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 8px;
+    }
+    .stat-l { font-size: 13px; color: var(--text-muted-lt); line-height: 1.4; }
+
+    .hmw-box {
+      background: rgba(220,38,38,0.07);
+      border: 1px solid rgba(220,38,38,0.22);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+    }
+    .hmw-label {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .hmw-text {
+      font-size: clamp(16px,1.8vw,20px); font-weight: 500;
+      color: rgba(255,255,255,0.85); line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION 3 — MARKET GAP
+    ══════════════════════════════════════ */
+    .market { padding: 100px 0; background: var(--bg); }
+    .comp-table {
+      width: 100%; border-collapse: collapse;
+      margin-bottom: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .comp-table th, .comp-table td {
+      padding: 14px 20px; text-align: center;
+      font-size: 14px; border-bottom: 1px solid var(--border);
+    }
+    .comp-table th {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+      background: rgba(0,0,0,0.03);
+    }
+    .comp-table td:first-child { text-align: left; font-weight: 500; color: var(--text); }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table tr:hover td { background: rgba(0,0,0,0.02); }
+    .check { color: #16a34a; font-weight: 700; font-size: 16px; }
+    .cross { color: var(--accent); font-weight: 700; font-size: 16px; }
+    .col-highlight { background: rgba(220,38,38,0.04) !important; }
+
+    .insight-card {
+      background: linear-gradient(135deg, rgba(139,105,20,0.08) 0%, rgba(220,38,38,0.06) 100%);
+      border: 1px solid rgba(139,105,20,0.25);
+      border-radius: var(--radius); padding: 28px 32px;
+    }
+    .insight-card p { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.65; }
+    .insight-card strong { color: var(--amber); }
+
+    /* ══════════════════════════════════════
+       SECTION 4 — USERS
+    ══════════════════════════════════════ */
+    .users { padding: 100px 0; background: var(--bg-dark-2); }
+    .method-note {
+      font-size: 13px; color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px; padding: 10px 16px;
+      display: inline-block; margin-bottom: 48px;
+    }
+    .key-insight {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-top: 3px solid var(--accent);
+      border-radius: var(--radius); padding: 40px 48px;
+      text-align: center; margin-bottom: 48px;
+    }
+    .key-insight-label {
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 16px;
+    }
+    .key-insight-text {
+      font-size: clamp(18px, 2.2vw, 26px); font-weight: 600;
+      color: #fff; line-height: 1.5;
+    }
+    .key-insight-text em { font-style: normal; color: var(--amber-bright); }
+
+    .quotes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .quote-card {
+      background: var(--card-dark);
+      border: 1px solid var(--border-lt);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .quote-text { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+    .quote-attr { font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 500; }
+
+    .user-summary {
+      background: rgba(220,38,38,0.06); border: 1px solid rgba(220,38,38,0.15);
+      border-radius: var(--radius); padding: 28px 32px;
+    }
+    .user-summary h4 { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .user-summary ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .user-summary li { font-size: 14px; color: rgba(255,255,255,0.65); padding-left: 16px; position: relative; }
+    .user-summary li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       SECTION 5 — CONSTRAINTS
+    ══════════════════════════════════════ */
+    .constraints { padding: 100px 0; background: var(--bg); }
+    .constraints-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+
+    .circular-diagram {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .cd-wrap {
+      width: 240px; height: 240px; border-radius: 50%;
+      border: 2px dashed rgba(0,0,0,0.15);
+      position: relative; display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.03);
+    }
+    .cd-zone {
+      position: absolute; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .cd-top    { top: 20px; color: var(--text-muted); }
+    .cd-bottom { bottom: 18px; color: var(--text-muted); }
+    .cd-center {
+      width: 170px; height: 170px; border-radius: 50%;
+      background: rgba(220,38,38,0.07); border: 1px solid rgba(220,38,38,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 4px;
+    }
+    .cd-center-label { font-size: 11px; font-weight: 700; color: var(--accent); }
+    .cd-center-val { font-family: 'Orbitron',sans-serif; font-size: 20px; font-weight: 900; color: var(--text); }
+
+    .constraints-list { display: flex; flex-direction: column; gap: 16px; }
+    .constraint-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 18px 20px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+    }
+    .constraint-icon {
+      width: 36px; height: 36px; border-radius: 6px;
+      background: var(--accent-dim); border: 1px solid rgba(220,38,38,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--accent);
+    }
+    .constraint-text h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .constraint-text p  { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+
+    .success-metric {
+      margin-top: 48px; text-align: center;
+      padding: 28px; background: var(--card);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+    }
+    .success-metric-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+    .success-metric-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(18px, 2.5vw, 26px); font-weight: 900;
+      color: var(--text);
+    }
+    .success-metric-val span { color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       SECTION 6 — DESIGN APPROACH
+    ══════════════════════════════════════ */
+    .approach { padding: 100px 0; background: var(--bg-dark); }
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-bottom: 64px; position: relative;
+    }
+    .process-steps::before {
+      content: '';
+      position: absolute; top: 22px; left: 12%; right: 12%;
+      height: 1px; background: rgba(255,255,255,0.08);
+    }
+    .process-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 12px; }
+    .ps-num {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--bg-dark); border: 1px solid rgba(220,38,38,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
+      color: var(--accent); margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .ps-num.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 0 20px rgba(220,38,38,0.4); }
+    .ps-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .ps-desc  { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.55; }
+
+    .decisions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+    .decision-card {
+      background: var(--card-dark); border: 1px solid var(--border-lt);
+      border-radius: var(--radius); padding: 32px;
+    }
+    .decision-num {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .decision-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 16px; line-height: 1.3; }
+    .decision-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 20px; }
+
+    .option-table { width: 100%; border-collapse: collapse; }
+    .option-table td { padding: 9px 12px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .option-table td:first-child { color: rgba(255,255,255,0.65); font-weight: 500; }
+    .option-table td:last-child  { color: rgba(255,255,255,0.4); font-size: 12px; }
+    .option-table tr.chosen td   { color: #fff; }
+    .option-table tr.chosen td:first-child { color: var(--amber-bright); }
+
+    .design-sys-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .ds-card {
+      background: var(--card-dark); border: 1px solid var(--border-lt);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .ds-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+    .ds-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ds-swatch {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .ds-type-row { display: flex; flex-direction: column; gap: 6px; }
+    .ds-type-item { display: flex; align-items: baseline; gap: 10px; }
+    .ds-type-size { font-size: 10px; color: rgba(255,255,255,0.3); width: 30px; }
+    .ds-type-preview { color: #fff; font-family: 'Orbitron',sans-serif; }
+    .ds-comp-list { display: flex; flex-direction: column; gap: 7px; }
+    .ds-comp {
+      font-size: 11px; color: rgba(255,255,255,0.55);
+      background: rgba(255,255,255,0.04); border-radius: 4px;
+      padding: 5px 10px;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION 7 — SOLUTION
+    ══════════════════════════════════════ */
+    .solution { padding: 100px 0; background: var(--bg); }
+    .flow-block { margin-bottom: 72px; }
+    .flow-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 36px;
+    }
+    .flow-num {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--accent-dim); border: 1px solid rgba(220,38,38,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron',sans-serif; font-size: 12px; font-weight: 700;
+      color: var(--accent); flex-shrink: 0;
+    }
+    .flow-title { font-size: 22px; font-weight: 700; color: var(--text); }
+    .flow-sub   { font-size: 14px; color: var(--text-muted); margin-top: 2px; }
+
+    .watches-row {
+      display: flex; gap: 24px; align-items: flex-start;
+      justify-content: center; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .watch-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .watch-label { font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; max-width: 120px; }
+    .watch-arrow { font-size: 20px; color: var(--border); align-self: center; margin-top: -20px; }
+
+    .flow-stats {
+      display: flex; gap: 24px; justify-content: center;
+      padding: 20px 28px; background: var(--card);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      margin-top: 20px;
+    }
+    .flow-stat { text-align: center; }
+    .flow-stat-val { font-family: 'Orbitron',sans-serif; font-size: 20px; font-weight: 900; color: var(--text); }
+    .flow-stat-label { font-size: 12px; color: var(--text-muted); }
+
+    .challenge-box {
+      background: rgba(220,38,38,0.05); border: 1px solid rgba(220,38,38,0.18);
+      border-radius: var(--radius); padding: 24px 28px; margin-top: 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+    .challenge-box h4 { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .challenge-box p  { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+    .flow-divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 64px 0;
+    }
+
+    /* ══════════════════════════════════════
+       SECTION 8 — USER FLOW
+    ══════════════════════════════════════ */
+    .userflow { padding: 100px 0; background: var(--bg-dark-2); }
+    .flow-chart { display: flex; flex-direction: column; gap: 0; }
+    .flow-row   { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; }
+    .flow-node {
+      background: var(--card-dark); border: 1px solid var(--border-lt);
+      border-radius: 8px; padding: 10px 16px; text-align: center;
+      min-width: 110px;
+    }
+    .flow-node.start { border-color: rgba(220,38,38,0.4); background: rgba(220,38,38,0.08); }
+    .flow-node.end   { border-color: rgba(139,105,20,0.4); background: rgba(139,105,20,0.08); }
+    .flow-node.error { border-color: rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); opacity: 0.6; }
+    .flow-node-title { font-size: 12px; font-weight: 700; color: #fff; }
+    .flow-node-sub   { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .flow-node.start .flow-node-title { color: var(--accent-bright); }
+    .flow-node.end   .flow-node-title { color: var(--amber-bright); }
+    .flow-arr { font-size: 16px; color: rgba(255,255,255,0.2); padding: 0 8px; }
+    .flow-arr-down { font-size: 16px; color: rgba(255,255,255,0.15); text-align: center; padding: 8px 0; }
+    .flow-legend {
+      display: flex; gap: 24px; justify-content: center;
+      margin-top: 40px; flex-wrap: wrap;
+    }
+    .flow-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.4); }
+    .fl-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .fl-red    { background: var(--accent); }
+    .fl-amber  { background: var(--amber-bright); }
+    .fl-muted  { background: rgba(255,255,255,0.2); }
+
+    /* ══════════════════════════════════════
+       SECTION 9 — VALIDATION
+    ══════════════════════════════════════ */
+    .validation { padding: 100px 0; background: var(--bg); }
+    .val-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .val-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px;
+      backdrop-filter: blur(16px);
+    }
+    .val-card h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+    .val-stat-row { display: flex; gap: 24px; margin-bottom: 24px; }
+    .val-stat-item { text-align: center; }
+    .val-stat-num {
+      font-family: 'Orbitron',sans-serif;
+      font-size: 28px; font-weight: 900; color: var(--text);
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .val-stat-lbl { font-size: 12px; color: var(--text-muted); }
+    .val-feedback { display: flex; flex-direction: column; gap: 10px; }
+    .val-fb-item {
+      font-size: 13px; font-style: italic; color: var(--text-muted);
+      padding: 10px 14px; border-left: 2px solid var(--border);
+      line-height: 1.6;
+    }
+
+    .learnings-list { display: flex; flex-direction: column; gap: 16px; }
+    .learning-item {
+      padding: 20px 24px;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: rgba(255,255,255,0.5);
+    }
+    .learning-n { font-family: 'Orbitron',sans-serif; font-size: 10px; color: var(--accent); margin-bottom: 6px; }
+    .learning-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .learning-desc  { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+    .future-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px; margin-top: 40px;
+      backdrop-filter: blur(12px);
+    }
+    .future-box h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+    .future-items { display: flex; flex-direction: column; gap: 10px; }
+    .future-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 14px; color: var(--text-muted);
+    }
+    .future-item::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+    /* ══════════════════════════════════════
+       SECTION 10 — FOOTER
+    ══════════════════════════════════════ */
+    .cs-footer {
+      padding: 80px 0 60px;
+      background: var(--bg-dark);
+      text-align: center;
+    }
+    .footer-cta-text {
+      font-size: clamp(24px,3.5vw,42px); font-weight: 900;
+      color: #fff; margin-bottom: 12px;
+    }
+    .footer-cta-text em { font-style: normal; color: var(--amber-bright); }
+    .footer-sub { font-size: 16px; color: rgba(255,255,255,0.4); margin-bottom: 40px; }
+    .footer-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 64px; }
+    .footer-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600;
+      padding: 12px 24px; border-radius: 100px;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .footer-link.primary {
+      background: var(--accent); color: #fff;
+    }
+    .footer-link.primary:hover { background: var(--accent-bright); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(220,38,38,0.35); }
+    .footer-link.secondary {
+      background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-link.secondary:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin-bottom: 32px; }
+    .footer-nav { display: flex; justify-content: center; }
+    .footer-back {
+      font-size: 13px; color: rgba(255,255,255,0.3);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .footer-back:hover { color: rgba(255,255,255,0.6); }
+    .footer-credit { font-size: 12px; color: rgba(255,255,255,0.18); margin-top: 12px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+      .watch-cluster { order: -1; }
+      .hero-meta { justify-content: center; }
+      .decisions-grid, .val-grid { grid-template-columns: 1fr; }
+      .constraints-grid { grid-template-columns: 1fr; }
+      .design-sys-strip { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: repeat(2,1fr); gap: 24px; }
+      .process-steps::before { display: none; }
+      .challenge-box { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      .hero { padding: calc(var(--nav-h) + 32px) 20px 60px; }
+      .problem, .market, .users, .constraints, .approach, .solution, .userflow, .validation, .cs-footer { padding: 72px 0; }
+      .stats-row { grid-template-columns: 1fr; }
+      .stat-cell:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .quotes-grid { grid-template-columns: 1fr; }
+      .design-sys-strip { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .watches-row { gap: 16px; }
+      .watch-frame { width: 150px; height: 150px; border-width: 5px; }
+      .watch-frame.lg { width: 180px; height: 180px; }
+      nav { width: calc(100% - 24px); padding: 0 16px; }
+      .nav-title { display: none; }
+      .flow-chart { overflow-x: auto; }
+      .footer-links { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">← Back to Portfolio</a>
+  <span class="nav-title">UPI on WearOS</span>
+  <a href="index.html#contact" class="nav-cta-sm">Get in touch</a>
+</nav>
+
+<!-- ══ SECTION 1: HERO ══ -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="fade-up">
+      <div class="hero-badges">
+        <span class="badge-sm">Concept Project</span>
+        <span class="badge-sm">2024</span>
+        <span class="badge-sm">Solo Designer</span>
+        <span class="badge-sm badge-red">UPI · Payments</span>
+      </div>
+
+      <h1>Paying from<br><em>Your Wrist</em></h1>
+
+      <p class="hero-sub">
+        Designing India's first native UPI experience for WearOS —
+        where 500M+ UPI users meet 50M+ smartwatch owners,
+        and the gap is entirely a design problem.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Role</span>
+          <span class="hero-meta-val">Solo UX Designer</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Type</span>
+          <span class="hero-meta-val">End-to-End Product Design</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Platform</span>
+          <span class="hero-meta-val">WearOS · Circular Display</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Duration</span>
+          <span class="hero-meta-val">3 Weeks</span>
+        </div>
+      </div>
+
+      <div class="hero-ctas">
+        <a href="https://www.figma.com/proto/QjeLp2mr35ebNZaUFFBmsK/GPay-For-WearOS?node-id=48-253&p=f&t=drugQp56E2WWUxfH-1&scaling=min-zoom&content-scaling=fixed&page-id=48%3A223&starting-point-node-id=48%3A253" target="_blank" rel="noopener" class="btn-primary">View Prototype ↗</a>
+        <a href="index.html" class="btn-secondary">← All Work</a>
+      </div>
+    </div>
+
+    <!-- Hero watch mockup -->
+    <div class="watch-cluster fade-up d2">
+      <div class="watch-frame lg">
+        <div class="watch-screen ws-home">
+          <div class="wl wl-time">09:41</div>
+          <div class="watch-menu">
+            <div class="watch-menu-item active">
+              <div class="watch-menu-dot"></div> Tap to Pay
+            </div>
+            <div class="watch-menu-item">
+              <div class="watch-menu-dot amber"></div> Send Money
+            </div>
+            <div class="watch-menu-item">
+              <div class="watch-menu-dot muted"></div> Balance
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>Scroll to explore</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- ══ SECTION 2: PROBLEM ══ -->
+<section class="problem s-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-lt fade-up">The Problem</p>
+    <h2 class="section-h fade-up d1">A 500M-user platform.<br>Zero watch support.</h2>
+
+    <p class="story-quote fade-up d1">
+      "During a morning run, I stopped to buy a drink and realized I couldn't pay —
+      no wallet, phone at home. My LTE smartwatch was useless for the one thing I needed."
+    </p>
+
+    <div class="stats-row fade-up d2">
+      <div class="stat-cell">
+        <div class="stat-n" data-target="500">0</div>
+        <div class="stat-l">million Indians<br>use UPI daily</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n" data-target="50">0</div>
+        <div class="stat-l">million own LTE<br>smartwatches</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">0</div>
+        <div class="stat-l">native UPI apps<br>for WearOS</div>
+      </div>
+    </div>
+
+    <div class="hmw-box fade-up d3">
+      <p class="hmw-label">How Might We</p>
+      <p class="hmw-text">
+        How might we design a lightweight, secure UPI application for WearOS
+        that works entirely without a smartphone?
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 3: MARKET GAP ══ -->
+<section class="market s-light">
+  <div class="container">
+    <p class="eyebrow fade-up">Market Gap</p>
+    <h2 class="section-h fade-up d1">What exists today.</h2>
+    <p class="section-sub fade-up d1">None of the major payment apps have cracked this — not laziness, but a genuine interaction design challenge.</p>
+
+    <div class="fade-up d2" style="overflow-x:auto;">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>GPay</th>
+            <th>PhonePe</th>
+            <th class="col-highlight">This Project</th>
+            <th>Samsung Pay</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>UPI on Watch</td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td class="col-highlight"><span class="check">✓</span></td>
+            <td><span class="cross">✕</span></td>
+          </tr>
+          <tr>
+            <td>NFC Tap to Pay</td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td class="col-highlight"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Balance Check</td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td class="col-highlight"><span class="check">✓</span></td>
+            <td><span class="cross">✕</span></td>
+          </tr>
+          <tr>
+            <td>Works Without Phone</td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td class="col-highlight"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>No QR Required</td>
+            <td><span class="cross">✕</span></td>
+            <td><span class="cross">✕</span></td>
+            <td class="col-highlight"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight-card fade-up d3">
+      <p>The gap isn't laziness — it's a technical-UX knot. UPI requires SIM-based device binding. QR scanning dominates the UPI experience but watches have no camera. PIN entry on a tiny circular screen seems impossible. <strong>My hypothesis: the problem isn't capability — it's interaction design.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4: UNDERSTANDING USERS ══ -->
+<section class="users s-dark2">
+  <div class="container">
+    <p class="eyebrow eyebrow-lt fade-up">Understanding Users</p>
+    <h2 class="section-h fade-up d1">The insight that<br>changed everything.</h2>
+
+    <div class="fade-up d1">
+      <span class="method-note">8 informal interviews · runners, commuters, smartwatch owners · no budget for formal research</span>
+    </div>
+
+    <div class="key-insight fade-up d2">
+      <p class="key-insight-label">Key Insight</p>
+      <p class="key-insight-text">
+        "Users don't want to <em>TYPE</em> on a watch —<br>
+        they want to <em>CONFIRM</em> pre-set actions."
+      </p>
+    </div>
+
+    <div class="quotes-grid fade-up d3">
+      <div class="quote-card">
+        <p class="quote-text">"I don't want to carry my phone during runs, but I still need to pay easily. A watch tap would be perfect."</p>
+        <p class="quote-attr">— Runner, Pixel Watch owner</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">"When my phone battery dies after a long day, my LTE watch is all I have. But I can't even split a bill."</p>
+        <p class="quote-attr">— Commuter, Galaxy Watch user</p>
+      </div>
+    </div>
+
+    <div class="user-summary fade-up d4">
+      <h4>Primary User: The Phone-Free Athlete</h4>
+      <ul>
+        <li>Runs or cycles without a phone for fitness tracking</li>
+        <li>Uses LTE watch for music, navigation, and health monitoring</li>
+        <li>Needs quick payments mid-workout — water, chai, metro tap</li>
+        <li>Wants ≤4 taps, not a full payment journey</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 5: CONSTRAINTS ══ -->
+<section class="constraints s-light">
+  <div class="container">
+    <p class="eyebrow fade-up">Design Constraints</p>
+    <h2 class="section-h fade-up d1">The rules of the game.</h2>
+
+    <div class="constraints-grid">
+      <div class="circular-diagram fade-up d1">
+        <div class="cd-wrap">
+          <div class="cd-zone cd-top">System UI · Top 15%</div>
+          <div class="cd-center">
+            <div class="cd-center-label">Usable Area</div>
+            <div class="cd-center-val">~70%</div>
+          </div>
+          <div class="cd-zone cd-bottom">Hard to reach · Bottom 15%</div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;text-align:center;">WearOS circular display zones</p>
+      </div>
+
+      <div class="constraints-list fade-up d2">
+        <div class="constraint-item">
+          <div class="constraint-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="constraint-text">
+            <h4>LTE-only operation</h4>
+            <p>Must work without a paired smartphone anywhere nearby.</p>
+          </div>
+        </div>
+        <div class="constraint-item">
+          <div class="constraint-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="constraint-text">
+            <h4>No camera</h4>
+            <p>QR scanning — the backbone of UPI — is impossible.</p>
+          </div>
+        </div>
+        <div class="constraint-item">
+          <div class="constraint-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+          </div>
+          <div class="constraint-text">
+            <h4>Tiny, circular screen</h4>
+            <p>Standard keyboard or UPI ID typing is a usability failure.</p>
+          </div>
+        </div>
+        <div class="constraint-item">
+          <div class="constraint-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="constraint-text">
+            <h4>One-handed context</h4>
+            <p>Other hand holds a water bottle, bag, or rail.</p>
+          </div>
+        </div>
+        <div class="constraint-item">
+          <div class="constraint-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="constraint-text">
+            <h4>PIN is non-negotiable</h4>
+            <p>UPI security mandate cannot be bypassed, only optimised.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-metric fade-up d3">
+      <p class="success-metric-label">Success Metric</p>
+      <p class="success-metric-val">Complete a payment in <span>≤ 4 taps</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 6: DESIGN APPROACH ══ -->
+<section class="approach s-dark">
+  <div class="container">
+    <p class="eyebrow eyebrow-lt fade-up">Design Approach</p>
+    <h2 class="section-h fade-up d1">Two decisions that<br>defined everything.</h2>
+
+    <div class="process-steps fade-up d2">
+      <div class="process-step">
+        <div class="ps-num">01</div>
+        <p class="ps-title">Constraint Mapping</p>
+        <p class="ps-desc">Documented every technical and UX boundary before touching Figma.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">02</div>
+        <p class="ps-title">Pattern Audit</p>
+        <p class="ps-desc">Analysed 5 payment apps and 3 WearOS app patterns for input conventions.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-num active">03</div>
+        <p class="ps-title">Design System</p>
+        <p class="ps-desc">Built tokens, type scale, and components before any screen work.</p>
+      </div>
+      <div class="process-step">
+        <div class="ps-num">04</div>
+        <p class="ps-title">High Fidelity</p>
+        <p class="ps-desc">15+ screens across 3 core flows, validated with 5 smartwatch owners.</p>
+      </div>
+    </div>
+
+    <!-- Design System Strip -->
+    <div class="design-sys-strip fade-up d2" style="margin-bottom:48px;">
+      <div class="ds-card">
+        <p class="ds-label">Colour Tokens</p>
+        <div class="ds-swatches">
+          <div class="ds-swatch" style="background:#DC2626;" title="Primary"></div>
+          <div class="ds-swatch" style="background:#EAB308;" title="Amber"></div>
+          <div class="ds-swatch" style="background:#0a0a0a;" title="Surface"></div>
+          <div class="ds-swatch" style="background:#ffffff;" title="Text"></div>
+          <div class="ds-swatch" style="background:rgba(255,255,255,0.08);" title="Muted"></div>
+        </div>
+      </div>
+      <div class="ds-card">
+        <p class="ds-label">Type Scale</p>
+        <div class="ds-type-row">
+          <div class="ds-type-item"><span class="ds-type-size">22px</span><span class="ds-type-preview" style="font-size:18px;font-weight:900;">₹120</span></div>
+          <div class="ds-type-item"><span class="ds-type-size">14px</span><span class="ds-type-preview" style="font-size:13px;font-weight:700;">Ravi Kumar</span></div>
+          <div class="ds-type-item"><span class="ds-type-size">11px</span><span class="ds-type-preview" style="font-size:10px;opacity:.5;">ravi@okhdfc</span></div>
+        </div>
+      </div>
+      <div class="ds-card">
+        <p class="ds-label">Components</p>
+        <div class="ds-comp-list">
+          <div class="ds-comp">Menu Item · 44px height</div>
+          <div class="ds-comp">Numpad Key · 44×44px</div>
+          <div class="ds-comp">Circular Button</div>
+          <div class="ds-comp">PIN Dot · 10px</div>
+          <div class="ds-comp">Status Chip</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="decisions-grid fade-up d3">
+      <!-- Decision 1 -->
+      <div class="decision-card">
+        <p class="decision-num">Key Decision 01</p>
+        <h3 class="decision-title">Recipient Selection Without Typing</h3>
+        <p class="decision-desc">UPI IDs are long (name@bank) and error-prone on a tiny screen. I explored four approaches:</p>
+        <table class="option-table">
+          <tr><td>Full keyboard</td><td>✕ High error rate, too small</td></tr>
+          <tr><td>Voice input</td><td>✕ Awkward in public, privacy</td></tr>
+          <tr><td>QR scan</td><td>✕ No camera on watch</td></tr>
+          <tr class="chosen"><td>✓ Saved contacts</td><td>Most payments go to same 5–10 people</td></tr>
+        </table>
+        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:12px;line-height:1.6;">New recipients are added via the phone companion app first. This isn't a limitation — it's intentional friction that prevents errors.</p>
+      </div>
+
+      <!-- Decision 2 -->
+      <div class="decision-card">
+        <p class="decision-num">Key Decision 02</p>
+        <h3 class="decision-title">PIN & Amount Entry — The Numpad Problem</h3>
+        <p class="decision-desc">UPI requires PIN entry — unavoidable. The goal: make the numpad work well on a circular display.</p>
+        <table class="option-table">
+          <tr><td>Standard grid numpad</td><td>✕ Corner keys cut off by bezel</td></tr>
+          <tr><td>Rotary crown input</td><td>✕ Slow for amounts, error-prone</td></tr>
+          <tr class="chosen"><td>✓ Optimised flat numpad</td><td>44px targets, centered layout</td></tr>
+        </table>
+        <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:12px;line-height:1.6;">Large touch targets (44px min) · Visual feedback on tap · PIN shown as dots · Backspace accessible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 7: SOLUTION ══ -->
+<section class="solution s-light">
+  <div class="container">
+    <p class="eyebrow fade-up">The Solution</p>
+    <h2 class="section-h fade-up d1">Three flows.<br>Every scenario covered.</h2>
+    <p class="section-sub fade-up d1">A vertical-scroll interface centred on three core actions — designed so each can be completed in ≤ 4 taps.</p>
+
+    <!-- Flow 1: Tap to Pay -->
+    <div class="flow-block fade-up d2">
+      <div class="flow-header">
+        <div class="flow-num">01</div>
+        <div>
+          <h3 class="flow-title">Tap to Pay</h3>
+          <p class="flow-sub">NFC-based payment at any POS terminal</p>
+        </div>
+      </div>
+
+      <div class="watches-row">
+        <div class="watch-wrap">
+          <div class="watch-frame">
+            <div class="watch-screen ws-home">
+              <div class="watch-menu">
+                <div class="watch-menu-item active"><div class="watch-menu-dot"></div> Tap to Pay</div>
+                <div class="watch-menu-item"><div class="watch-menu-dot amber"></div> Send Money</div>
+              </div>
+            </div>
+          </div>
+          <p class="watch-label">Select action</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame">
+            <div class="watch-screen ws-tap">
+              <div class="wl wl-nfc">📡</div>
+              <div class="wl wl-title" style="color:#fff;font-size:12px;">Hold near terminal</div>
+              <div class="wl wl-sub">HDFC ···4521</div>
+              <div style="margin-top:8px;padding:5px 12px;background:rgba(220,38,38,0.25);border-radius:20px;font-size:10px;color:#EF4444;font-weight:600;">NFC READY</div>
+            </div>
+          </div>
+          <p class="watch-label">Tap device to POS</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame">
+            <div class="watch-screen ws-success">
+              <div class="wl wl-check">✓</div>
+              <div class="wl wl-title" style="font-size:11px;">Payment Sent</div>
+              <div class="wl wl-amount-big" style="font-size:18px;">₹240</div>
+              <div class="wl wl-sub">via NFC · 2s</div>
+            </div>
+          </div>
+          <p class="watch-label">Success</p>
+        </div>
+      </div>
+
+      <div class="flow-stats">
+        <div class="flow-stat"><div class="flow-stat-val">2</div><div class="flow-stat-label">Taps</div></div>
+        <div class="flow-stat"><div class="flow-stat-val">~5s</div><div class="flow-stat-label">Time</div></div>
+        <div class="flow-stat"><div class="flow-stat-val">0</div><div class="flow-stat-label">Typing</div></div>
+      </div>
+    </div>
+
+    <hr class="flow-divider">
+
+    <!-- Flow 2: UPI Payment -->
+    <div class="flow-block fade-up">
+      <div class="flow-header">
+        <div class="flow-num">02</div>
+        <div>
+          <h3 class="flow-title">Send Money via UPI</h3>
+          <p class="flow-sub">Person-to-person payment using saved contacts</p>
+        </div>
+      </div>
+
+      <div class="watches-row">
+        <div class="watch-wrap">
+          <div class="watch-frame sm">
+            <div class="watch-screen ws-contact">
+              <div class="wl wl-sub" style="margin-bottom:6px;">Contacts</div>
+              <div style="display:flex;flex-direction:column;gap:4px;width:100%;">
+                <div style="display:flex;align-items:center;gap:6px;background:rgba(220,38,38,0.2);border-radius:12px;padding:4px 8px;">
+                  <div style="width:16px;height:16px;border-radius:50%;background:#DC2626;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">R</div>
+                  <span style="font-size:9px;color:#fff;font-weight:600;">Ravi</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 8px;">
+                  <div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,0.1);font-size:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-weight:700;">P</div>
+                  <span style="font-size:9px;color:rgba(255,255,255,.5);">Priya</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="watch-label">Select contact</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame sm">
+            <div class="watch-screen ws-amount">
+              <div class="wl wl-currency">₹</div>
+              <div class="wl wl-amount-big" style="font-size:26px;">50</div>
+              <div class="watch-numpad" style="margin-top:4px;">
+                <div class="wn-btn" style="font-size:10px;">1</div><div class="wn-btn" style="font-size:10px;">2</div><div class="wn-btn" style="font-size:10px;">3</div>
+                <div class="wn-btn" style="font-size:10px;">4</div><div class="wn-btn" style="font-size:10px;">5</div><div class="wn-btn" style="font-size:10px;">6</div>
+              </div>
+            </div>
+          </div>
+          <p class="watch-label">Enter amount</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame sm">
+            <div class="watch-screen ws-pin">
+              <div class="wl wl-sub" style="margin-bottom:6px;">Enter UPI PIN</div>
+              <div class="wl-dots" style="margin-bottom:6px;">
+                <div class="wl-dot filled"></div>
+                <div class="wl-dot filled"></div>
+                <div class="wl-dot filled"></div>
+                <div class="wl-dot"></div>
+              </div>
+              <div class="watch-numpad">
+                <div class="wn-btn" style="font-size:10px;">1</div><div class="wn-btn" style="font-size:10px;">2</div><div class="wn-btn" style="font-size:10px;">3</div>
+                <div class="wn-btn" style="font-size:10px;">4</div><div class="wn-btn" style="font-size:10px;">5</div><div class="wn-btn" style="font-size:10px;">6</div>
+              </div>
+            </div>
+          </div>
+          <p class="watch-label">Enter PIN</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame sm">
+            <div class="watch-screen ws-success">
+              <div class="wl wl-check" style="font-size:24px;">✓</div>
+              <div class="wl wl-title" style="font-size:10px;">Sent to Ravi</div>
+              <div class="wl wl-amount-big" style="font-size:20px;">₹50</div>
+              <div class="wl wl-sub">HDFC UPI · now</div>
+            </div>
+          </div>
+          <p class="watch-label">Payment sent</p>
+        </div>
+      </div>
+
+      <div class="challenge-box">
+        <div>
+          <h4>The Challenge</h4>
+          <p>UPI requires both amount AND PIN entry. Both typically need typing on a surface designed for typing.</p>
+        </div>
+        <div>
+          <h4>The Solution</h4>
+          <p>Large numpad (44px targets) + saved contacts means users tap, not type. Each digit is a deliberate press, reducing errors on small screens.</p>
+        </div>
+      </div>
+
+      <div class="flow-stats" style="margin-top:20px;">
+        <div class="flow-stat"><div class="flow-stat-val">4</div><div class="flow-stat-label">Taps</div></div>
+        <div class="flow-stat"><div class="flow-stat-val">~8s</div><div class="flow-stat-label">Time</div></div>
+        <div class="flow-stat"><div class="flow-stat-val">100%</div><div class="flow-stat-label">Test Success Rate</div></div>
+      </div>
+    </div>
+
+    <hr class="flow-divider">
+
+    <!-- Flow 3: Balance -->
+    <div class="flow-block fade-up">
+      <div class="flow-header">
+        <div class="flow-num">03</div>
+        <div>
+          <h3 class="flow-title">Check Balance</h3>
+          <p class="flow-sub">PIN-gated balance view — intentional security</p>
+        </div>
+      </div>
+
+      <div class="watches-row">
+        <div class="watch-wrap">
+          <div class="watch-frame">
+            <div class="watch-screen ws-home">
+              <div class="watch-menu">
+                <div class="watch-menu-item"><div class="watch-menu-dot"></div> Tap to Pay</div>
+                <div class="watch-menu-item"><div class="watch-menu-dot amber"></div> Send Money</div>
+                <div class="watch-menu-item active"><div class="watch-menu-dot muted"></div> Balance</div>
+              </div>
+            </div>
+          </div>
+          <p class="watch-label">Select Balance</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame">
+            <div class="watch-screen ws-pin">
+              <div class="wl wl-sub" style="margin-bottom:8px;">UPI PIN to view</div>
+              <div class="wl-dots">
+                <div class="wl-dot filled"></div><div class="wl-dot filled"></div>
+                <div class="wl-dot"></div><div class="wl-dot"></div>
+              </div>
+            </div>
+          </div>
+          <p class="watch-label">Verify PIN</p>
+        </div>
+        <div class="watch-arrow">→</div>
+        <div class="watch-wrap">
+          <div class="watch-frame">
+            <div class="watch-screen ws-balance">
+              <div class="wl wl-sub" style="margin-bottom:4px;">HDFC Bank</div>
+              <div class="wl wl-amount-big">₹12,450</div>
+              <div class="wl wl-sub" style="margin-top:6px;">Available balance</div>
+            </div>
+          </div>
+          <p class="watch-label">View balance</p>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);text-align:center;margin-top:16px;">PIN required even for balance — consistent security mental model, intentional design.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 8: USER FLOW ══ -->
+<section class="userflow s-dark2">
+  <div class="container">
+    <p class="eyebrow eyebrow-lt fade-up">User Flow</p>
+    <h2 class="section-h fade-up d1">Complete journey map.</h2>
+
+    <div class="flow-chart fade-up d2">
+      <div class="flow-row">
+        <div class="flow-node start"><div class="flow-node-title">Open App</div><div class="flow-node-sub">Watch tap</div></div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node"><div class="flow-node-title">Home Menu</div><div class="flow-node-sub">3 options</div></div>
+        <div class="flow-arr">→</div>
+        <div class="flow-node"><div class="flow-node-title">Choose Flow</div><div class="flow-node-sub">Tap / Send / Balance</div></div>
+      </div>
+      <div class="flow-arr-down">↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
+      <div class="flow-row">
+        <div class="flow-node"><div class="flow-node-title">Hold to NFC</div><div class="flow-node-sub">Tap to Pay path</div></div>
+        <div class="flow-arr" style="visibility:hidden;">→</div>
+        <div class="flow-node"><div class="flow-node-title">Select Contact</div><div class="flow-node-sub">Send Money path</div></div>
+        <div class="flow-arr" style="visibility:hidden;">→</div>
+        <div class="flow-node"><div class="flow-node-title">Enter PIN</div><div class="flow-node-sub">Balance path</div></div>
+      </div>
+      <div class="flow-arr-down">↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="flow-row">
+        <div class="flow-node end"><div class="flow-node-title">✓ NFC Success</div></div>
+        <div class="flow-arr" style="visibility:hidden;">→</div>
+        <div class="flow-node"><div class="flow-node-title">Amount → PIN</div><div class="flow-node-sub">Numpad entry</div></div>
+        <div class="flow-arr" style="visibility:hidden;">→</div>
+        <div class="flow-node end"><div class="flow-node-title">✓ Balance View</div></div>
+      </div>
+      <div class="flow-arr-down" style="visibility:hidden;">↓</div>
+      <div class="flow-row" style="justify-content:center;gap:24px;">
+        <div class="flow-node error"><div class="flow-node-title">✕ NFC Failed</div><div class="flow-node-sub">Retry prompt</div></div>
+        <div class="flow-node end" style="min-width:160px;"><div class="flow-node-title">✓ Payment Sent</div></div>
+        <div class="flow-node error"><div class="flow-node-title">✕ Wrong PIN</div><div class="flow-node-sub">2 retries left</div></div>
+      </div>
+    </div>
+
+    <div class="flow-legend fade-up d3">
+      <div class="flow-legend-item"><div class="fl-dot fl-red"></div> Happy path start</div>
+      <div class="flow-legend-item"><div class="fl-dot fl-amber"></div> Success state</div>
+      <div class="flow-legend-item"><div class="fl-dot fl-muted"></div> Error / retry state</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 9: VALIDATION ══ -->
+<section class="validation s-light">
+  <div class="container">
+    <p class="eyebrow fade-up">Validation & Learnings</p>
+    <h2 class="section-h fade-up d1">Tested. Reflected.<br>Iterated.</h2>
+
+    <div class="val-grid fade-up d2">
+      <div class="val-card">
+        <h3>Prototype Testing</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">5 smartwatch owners · Task: Pay ₹50 to a saved contact</p>
+        <div class="val-stat-row">
+          <div class="val-stat-item">
+            <div class="val-stat-num">4</div>
+            <div class="val-stat-lbl">Avg. taps</div>
+          </div>
+          <div class="val-stat-item">
+            <div class="val-stat-num">8s</div>
+            <div class="val-stat-lbl">Avg. time</div>
+          </div>
+          <div class="val-stat-item">
+            <div class="val-stat-num">100%</div>
+            <div class="val-stat-lbl">Success rate</div>
+          </div>
+        </div>
+        <div class="val-feedback">
+          <div class="val-fb-item">"Way faster than pulling out my phone."</div>
+          <div class="val-fb-item">"Numpad took a second to figure out — but then it clicked."</div>
+          <div class="val-fb-item">"Wish I could use voice for the amount."</div>
+        </div>
+      </div>
+
+      <div class="val-card">
+        <h3>Reflections</h3>
+        <div class="learnings-list">
+          <div class="learning-item">
+            <p class="learning-n">Learning 01</p>
+            <p class="learning-title">Constraints force clarity</p>
+            <p class="learning-desc">The circular display seemed limiting — it forced every element to justify its existence. Nothing survived that couldn't earn its place.</p>
+          </div>
+          <div class="learning-item">
+            <p class="learning-n">Learning 02</p>
+            <p class="learning-title">"Remove a feature" is often the answer</p>
+            <p class="learning-desc">Dropping QR scanning felt like failure at first. Removing it made every remaining flow stronger and cleaner.</p>
+          </div>
+          <div class="learning-item">
+            <p class="learning-n">Learning 03</p>
+            <p class="learning-title">Design systems compound</p>
+            <p class="learning-desc">Building components first added 2 days upfront. It saved a week of inconsistency fixes across 15+ screens.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="future-box fade-up d3">
+      <h4>If I had more time</h4>
+      <div class="future-items">
+        <div class="future-item">Voice confirmation — "Pay Ravi ₹50?" — for truly hands-free context</div>
+        <div class="future-item">Haptic feedback patterns for eyes-free success/failure signals mid-workout</div>
+        <div class="future-item">Watch face complications for one-tap quick-pay to frequent contacts</div>
+        <div class="future-item">Spending summary glance — last 3 transactions visible without PIN</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 10: FOOTER ══ -->
+<footer class="cs-footer">
+  <div class="container">
+    <p class="footer-cta-text fade-up">Like what you see?<br><em>Let's talk.</em></p>
+    <p class="footer-sub fade-up d1">Open to Senior Product Designer & UX Lead roles — Bengaluru or remote.</p>
+
+    <div class="footer-links fade-up d2">
+      <a href="mailto:bhuvaneswaran.b@outlook.com" class="footer-link primary">Get in Touch →</a>
+      <a href="https://www.linkedin.com/in/bhuvaneswaran-b-9576651ab" target="_blank" rel="noopener" class="footer-link secondary">LinkedIn</a>
+      <a href="resume.pdf" class="footer-link secondary" download>Download CV</a>
+      <a href="index.html" class="footer-link secondary">← All Work</a>
+    </div>
+
+    <hr class="footer-divider">
+    <div class="footer-nav">
+      <a href="index.html" class="footer-back">← Back to Portfolio</a>
+    </div>
+    <p class="footer-credit">Designed & built by Bhuvaneswaran B · 2024 · Concept Project</p>
+  </div>
+</footer>
+
+<!-- SCROLL PROGRESS + ANIMATIONS -->
+<script>
+  document.body.classList.add('loaded');
+
+  const bar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    bar.style.width = Math.min(
+      window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100, 100
+    ) + '%';
+  }, { passive: true });
+
+  /* Fade-up on scroll */
+  const io = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+  /* Stat counters */
+  const cntObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = +el.dataset.target;
+      if (!target) return;
+      const suffix = el.dataset.suffix || 'M+';
+      let start = 0;
+      const dur = 1800;
+      const t0 = performance.now();
+      const tick = now => {
+        const p = Math.min((now - t0) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(ease * target) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      cntObs.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-n[data-target]').forEach(el => cntObs.observe(el));
+</script>
+</body>
+</html>

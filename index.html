@@ -2008,7 +2008,7 @@
         { label: 'AI Tooling Used', tools: ['Figma Make', 'Claude', 'Midjourney', 'Figma'] },
         { label: 'Outcome', metric: 'First-of-kind wearable UPI flow for India · Addresses the gap in a ₹100T+ annual transaction ecosystem · Complete end-to-end flow validated' }
       ],
-      link: 'https://www.figma.com/proto/QjeLp2mr35ebNZaUFFBmsK/GPay-For-WearOS?node-id=48-253&p=f&t=drugQp56E2WWUxfH-1&scaling=min-zoom&content-scaling=fixed&page-id=48%3A223&starting-point-node-id=48%3A253'
+      link: 'wearos.html'
     },
     whatsapp: {
       eyebrow: 'Consumer · Accessibility · WCAG 2.1',
@@ -2057,7 +2057,10 @@
     });
 
     html += `</div>`;
-    if (d.link) html += `<a href="${d.link}" target="_blank" rel="noopener" class="modal-cta">View full case study ↗</a>`;
+    if (d.link) {
+      const isExternal = d.link.startsWith('http');
+      html += `<a href="${d.link}" ${isExternal ? 'target="_blank" rel="noopener"' : ''} class="modal-cta">View full case study →</a>`;
+    }
 
     body.innerHTML = html;
     document.getElementById('overlay').classList.add('open');
