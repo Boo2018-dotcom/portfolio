@@ -231,72 +231,6 @@
       display: flex; justify-content: center; align-items: center;
       position: relative;
     }
-    .watch-frame {
-      width: 200px; height: 200px;
-      border-radius: 50%;
-      background: #111;
-      border: 7px solid #252525;
-      box-shadow: 0 0 0 2px #1a1a1a, 0 24px 72px rgba(0,0,0,0.7),
-                  0 0 48px rgba(220,38,38,0.12) inset;
-      position: relative; overflow: hidden;
-      flex-shrink: 0;
-    }
-    .watch-frame.lg { width: 240px; height: 240px; border-width: 8px; }
-    .watch-frame.sm { width: 160px; height: 160px; border-width: 6px; }
-    .watch-screen {
-      width: 100%; height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 20px; text-align: center;
-    }
-    .ws-home { background: linear-gradient(160deg, #0e0e0e 0%, #1a0808 100%); }
-    .ws-contact { background: linear-gradient(160deg, #0a0a0a 0%, #0e0a06 100%); }
-    .ws-amount  { background: linear-gradient(160deg, #0a0606 0%, #150505 100%); }
-    .ws-pin     { background: linear-gradient(160deg, #080808 0%, #0e0606 100%); }
-    .ws-success { background: linear-gradient(160deg, #040a04 0%, #0a1a04 40%, #0e0a00 100%); }
-    .ws-balance { background: linear-gradient(160deg, #0a0806 0%, #150e04 100%); }
-    .ws-tap     { background: linear-gradient(160deg, #0a0a14 0%, #0a0410 100%); }
-
-    /* Watch screen content elements */
-    .wl { font-family: 'Space Grotesk', sans-serif; line-height: 1.3; }
-    .wl-time { font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
-    .wl-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .wl-sub   { font-size: 10px; color: rgba(255,255,255,0.45); }
-    .wl-amount-big { font-family: 'Orbitron',sans-serif; font-size: 22px; font-weight: 900; color: #fff; }
-    .wl-currency { font-size: 12px; color: rgba(255,255,255,0.5); }
-    .wl-dots { display: flex; gap: 8px; justify-content: center; margin: 8px 0; }
-    .wl-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.2); }
-    .wl-dot.filled { background: var(--accent); }
-    .wl-check { font-size: 32px; color: #4ade80; line-height: 1; margin-bottom: 6px; }
-    .wl-nfc { font-size: 22px; margin-bottom: 4px; }
-
-    .watch-menu { display: flex; flex-direction: column; gap: 7px; width: 100%; }
-    .watch-menu-item {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 20px; padding: 7px 10px;
-      font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 500;
-    }
-    .watch-menu-item.active { background: rgba(220,38,38,0.25); color: #fff; }
-    .watch-menu-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-    .watch-menu-dot.amber { background: var(--amber-bright); }
-    .watch-menu-dot.muted { background: rgba(255,255,255,0.3); }
-
-    .watch-numpad {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 4px; width: 100%; margin-top: 6px;
-    }
-    .wn-btn {
-      aspect-ratio: 1;
-      background: rgba(255,255,255,0.09);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700; color: #fff;
-    }
-    .wn-btn.red { background: var(--accent); }
-    .wn-btn.ghost { background: transparent; color: rgba(255,255,255,0.35); font-size: 10px; }
 
     .hero-scroll-hint {
       position: absolute; bottom: 36px; left: 50%;
@@ -596,6 +530,17 @@
     .watch-label { font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; max-width: 120px; }
     .watch-arrow { font-size: 20px; color: var(--border); align-self: center; margin-top: -20px; }
 
+    /* Real Figma screen images */
+    .watch-img {
+      width: 190px; height: 190px;
+      border-radius: 50%; display: block; object-fit: cover;
+      box-shadow: 0 0 0 6px #252525, 0 0 0 8px #1a1a1a,
+                  0 24px 72px rgba(0,0,0,0.55);
+      flex-shrink: 0;
+    }
+    .watch-img.lg { width: 240px; height: 240px; }
+    .watch-img.sm { width: 155px; height: 155px; }
+
     .flow-stats {
       display: flex; gap: 24px; justify-content: center;
       padding: 20px 28px; background: var(--card);
@@ -762,8 +707,9 @@
       .design-sys-strip { grid-template-columns: 1fr; }
       .process-steps { grid-template-columns: 1fr 1fr; }
       .watches-row { gap: 16px; }
-      .watch-frame { width: 150px; height: 150px; border-width: 5px; }
-      .watch-frame.lg { width: 180px; height: 180px; }
+      .watch-img { width: 140px; height: 140px; }
+      .watch-img.lg { width: 175px; height: 175px; }
+      .watch-img.sm { width: 115px; height: 115px; }
       nav { width: calc(100% - 24px); padding: 0 16px; }
       .nav-title { display: none; }
       .flow-chart { overflow-x: auto; }
@@ -829,22 +775,7 @@
 
     <!-- Hero watch mockup -->
     <div class="watch-cluster fade-up d2">
-      <div class="watch-frame lg">
-        <div class="watch-screen ws-home">
-          <div class="wl wl-time">09:41</div>
-          <div class="watch-menu">
-            <div class="watch-menu-item active">
-              <div class="watch-menu-dot"></div> Tap to Pay
-            </div>
-            <div class="watch-menu-item">
-              <div class="watch-menu-dot amber"></div> Send Money
-            </div>
-            <div class="watch-menu-item">
-              <div class="watch-menu-dot muted"></div> Balance
-            </div>
-          </div>
-        </div>
-      </div>
+      <img src="screens/overview_home.png" class="watch-img lg" alt="GPay WearOS home screen showing Tap to Pay, Send Money, and Check Balance actions">
     </div>
   </div>
 
@@ -1181,39 +1112,18 @@
 
       <div class="watches-row">
         <div class="watch-wrap">
-          <div class="watch-frame">
-            <div class="watch-screen ws-home">
-              <div class="watch-menu">
-                <div class="watch-menu-item active"><div class="watch-menu-dot"></div> Tap to Pay</div>
-                <div class="watch-menu-item"><div class="watch-menu-dot amber"></div> Send Money</div>
-              </div>
-            </div>
-          </div>
-          <p class="watch-label">Select action</p>
+          <img src="screens/tap_select_card.png" class="watch-img" alt="Select card to Tap and Pay screen showing ICICI, HDFC, SBI cards">
+          <p class="watch-label">Select card</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame">
-            <div class="watch-screen ws-tap">
-              <div class="wl wl-nfc">📡</div>
-              <div class="wl wl-title" style="color:#fff;font-size:12px;">Hold near terminal</div>
-              <div class="wl wl-sub">HDFC ···4521</div>
-              <div style="margin-top:8px;padding:5px 12px;background:rgba(220,38,38,0.25);border-radius:20px;font-size:10px;color:#EF4444;font-weight:600;">NFC READY</div>
-            </div>
-          </div>
-          <p class="watch-label">Tap device to POS</p>
+          <img src="screens/tap_nfc_screen.png" class="watch-img" alt="Tap watch against POS device screen">
+          <p class="watch-label">Tap to terminal</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame">
-            <div class="watch-screen ws-success">
-              <div class="wl wl-check">✓</div>
-              <div class="wl wl-title" style="font-size:11px;">Payment Sent</div>
-              <div class="wl wl-amount-big" style="font-size:18px;">₹240</div>
-              <div class="wl wl-sub">via NFC · 2s</div>
-            </div>
-          </div>
-          <p class="watch-label">Success</p>
+          <img src="screens/tap_success.png" class="watch-img" alt="Payment Successful confirmation screen">
+          <p class="watch-label">Payment done</p>
         </div>
       </div>
 
@@ -1238,66 +1148,22 @@
 
       <div class="watches-row">
         <div class="watch-wrap">
-          <div class="watch-frame sm">
-            <div class="watch-screen ws-contact">
-              <div class="wl wl-sub" style="margin-bottom:6px;">Contacts</div>
-              <div style="display:flex;flex-direction:column;gap:4px;width:100%;">
-                <div style="display:flex;align-items:center;gap:6px;background:rgba(220,38,38,0.2);border-radius:12px;padding:4px 8px;">
-                  <div style="width:16px;height:16px;border-radius:50%;background:#DC2626;font-size:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">R</div>
-                  <span style="font-size:9px;color:#fff;font-weight:600;">Ravi</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:6px;padding:4px 8px;">
-                  <div style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,0.1);font-size:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);font-weight:700;">P</div>
-                  <span style="font-size:9px;color:rgba(255,255,255,.5);">Priya</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <img src="screens/pay_contacts.png" class="watch-img sm" alt="Pay contact screen showing Mom, Dad, and Enter UPI No. option">
           <p class="watch-label">Select contact</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame sm">
-            <div class="watch-screen ws-amount">
-              <div class="wl wl-currency">₹</div>
-              <div class="wl wl-amount-big" style="font-size:26px;">50</div>
-              <div class="watch-numpad" style="margin-top:4px;">
-                <div class="wn-btn" style="font-size:10px;">1</div><div class="wn-btn" style="font-size:10px;">2</div><div class="wn-btn" style="font-size:10px;">3</div>
-                <div class="wn-btn" style="font-size:10px;">4</div><div class="wn-btn" style="font-size:10px;">5</div><div class="wn-btn" style="font-size:10px;">6</div>
-              </div>
-            </div>
-          </div>
+          <img src="screens/pay_amount.png" class="watch-img sm" alt="Enter amount screen with numpad">
           <p class="watch-label">Enter amount</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame sm">
-            <div class="watch-screen ws-pin">
-              <div class="wl wl-sub" style="margin-bottom:6px;">Enter UPI PIN</div>
-              <div class="wl-dots" style="margin-bottom:6px;">
-                <div class="wl-dot filled"></div>
-                <div class="wl-dot filled"></div>
-                <div class="wl-dot filled"></div>
-                <div class="wl-dot"></div>
-              </div>
-              <div class="watch-numpad">
-                <div class="wn-btn" style="font-size:10px;">1</div><div class="wn-btn" style="font-size:10px;">2</div><div class="wn-btn" style="font-size:10px;">3</div>
-                <div class="wn-btn" style="font-size:10px;">4</div><div class="wn-btn" style="font-size:10px;">5</div><div class="wn-btn" style="font-size:10px;">6</div>
-              </div>
-            </div>
-          </div>
+          <img src="screens/pay_pin.png" class="watch-img sm" alt="Enter UPI PIN screen with numpad">
           <p class="watch-label">Enter PIN</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame sm">
-            <div class="watch-screen ws-success">
-              <div class="wl wl-check" style="font-size:24px;">✓</div>
-              <div class="wl wl-title" style="font-size:10px;">Sent to Ravi</div>
-              <div class="wl wl-amount-big" style="font-size:20px;">₹50</div>
-              <div class="wl wl-sub">HDFC UPI · now</div>
-            </div>
-          </div>
+          <img src="screens/pay_success.png" class="watch-img sm" alt="Payment Successful screen">
           <p class="watch-label">Payment sent</p>
         </div>
       </div>
@@ -1334,39 +1200,17 @@
 
       <div class="watches-row">
         <div class="watch-wrap">
-          <div class="watch-frame">
-            <div class="watch-screen ws-home">
-              <div class="watch-menu">
-                <div class="watch-menu-item"><div class="watch-menu-dot"></div> Tap to Pay</div>
-                <div class="watch-menu-item"><div class="watch-menu-dot amber"></div> Send Money</div>
-                <div class="watch-menu-item active"><div class="watch-menu-dot muted"></div> Balance</div>
-              </div>
-            </div>
-          </div>
-          <p class="watch-label">Select Balance</p>
+          <img src="screens/bal_select_bank.png" class="watch-img" alt="Check Bank Balance screen showing ICICI, HDFC, SBI accounts">
+          <p class="watch-label">Select bank</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame">
-            <div class="watch-screen ws-pin">
-              <div class="wl wl-sub" style="margin-bottom:8px;">UPI PIN to view</div>
-              <div class="wl-dots">
-                <div class="wl-dot filled"></div><div class="wl-dot filled"></div>
-                <div class="wl-dot"></div><div class="wl-dot"></div>
-              </div>
-            </div>
-          </div>
+          <img src="screens/bal_pin.png" class="watch-img" alt="Enter UPI PIN screen for balance check">
           <p class="watch-label">Verify PIN</p>
         </div>
         <div class="watch-arrow">→</div>
         <div class="watch-wrap">
-          <div class="watch-frame">
-            <div class="watch-screen ws-balance">
-              <div class="wl wl-sub" style="margin-bottom:4px;">HDFC Bank</div>
-              <div class="wl wl-amount-big">₹12,450</div>
-              <div class="wl wl-sub" style="margin-top:6px;">Available balance</div>
-            </div>
-          </div>
+          <img src="screens/bal_result.png" class="watch-img" alt="Available balance displayed on screen">
           <p class="watch-label">View balance</p>
         </div>
       </div>
