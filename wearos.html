@@ -134,16 +134,17 @@
       transform: translate(-50%, -50%);
       width: 920px; height: 920px;
       background:
-        radial-gradient(ellipse at 36% 36%, rgba(251,191,36,0.78) 0%, rgba(234,179,8,0.44) 28%, transparent 58%),
-        radial-gradient(ellipse at 68% 66%, rgba(220,38,38,0.68) 0%, rgba(185,0,0,0.36) 30%, transparent 58%);
-      filter: blur(62px);
+        radial-gradient(ellipse at 36% 36%, rgba(120,80,220,0.55) 0%, rgba(91,63,166,0.30) 28%, transparent 58%),
+        radial-gradient(ellipse at 68% 66%, rgba(160,120,240,0.48) 0%, rgba(67,44,140,0.24) 30%, transparent 58%);
+      filter: blur(72px);
       border-radius: 62% 38% 46% 54% / 58% 46% 54% 42%;
-      pointer-events: none; z-index: 0; opacity: 0.88;
+      pointer-events: none; z-index: 0; opacity: 0.60;
     }
 
     /* ── LAYOUT ── */
     .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
-    section { padding: 80px 0; }
+    /* semi-opaque cream layer per section so orb stays as ambient glow, not overlay */
+    section { padding: 80px 0; background: rgba(250,247,240,0.72); position: relative; z-index: 1; }
 
     /* ── SECTION HEADER PATTERN ── */
     .sec-chip {
@@ -925,7 +926,7 @@
       .watch-img.sm    { width: 120px; height: 120px; }
       .val-stat-row    { gap: 8px; }
       .key-insight     { padding: 28px 24px; }
-      .orb             { width: 560px; height: 560px; filter: blur(44px); }
+      .orb             { width: 560px; height: 560px; filter: blur(52px); opacity: 0.45; }
     }
   </style>
 </head>
@@ -1705,7 +1706,7 @@
       orb.style.borderRadius=`${cur.r[0]}% ${cur.r[1]}% ${cur.r[2]}% ${cur.r[3]}% / ${cur.r[4]}% ${cur.r[5]}% ${cur.r[6]}% ${cur.r[7]}%`;
       const sq=Math.max(0.65,1/(1+velStretch*0.68));
       orb.style.transform=['translate(-50%,-50%)',`rotate(${smoothVelAngle.toFixed(1)}deg)`,`scaleX(${(1+velStretch).toFixed(3)})`,`scaleY(${sq.toFixed(3)})`,`rotate(${(-smoothVelAngle+cur.rot).toFixed(1)}deg)`,`scaleX(${cur.sx.toFixed(3)})`,`scaleY(${cur.sy.toFixed(3)})`].join(' ');
-      orb.style.background=[`radial-gradient(ellipse at ${yFX.toFixed(1)}% ${yFY.toFixed(1)}%, rgba(251,191,36,0.90) 0%, rgba(234,179,8,0.52) 24%, transparent 54%)`,`radial-gradient(ellipse at ${rFX.toFixed(1)}% ${rFY.toFixed(1)}%, rgba(220,38,38,0.80) 0%, rgba(185,0,0,0.44) 26%, transparent 54%)`].join(', ');
+      orb.style.background=[`radial-gradient(ellipse at ${yFX.toFixed(1)}% ${yFY.toFixed(1)}%, rgba(120,80,220,0.62) 0%, rgba(91,63,166,0.34) 24%, transparent 54%)`,`radial-gradient(ellipse at ${rFX.toFixed(1)}% ${rFY.toFixed(1)}%, rgba(160,120,240,0.54) 0%, rgba(67,44,140,0.28) 26%, transparent 54%)`].join(', ');
       requestAnimationFrame(loop);
     });
     document.addEventListener('visibilitychange',()=>{ if(!document.hidden) lastTs=null; });
