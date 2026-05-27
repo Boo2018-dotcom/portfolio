@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Post 2 — Design Decision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #1C1B1F; font-family: 'Roboto', sans-serif; }
+
+  .card {
+    width: 1080px; height: 1080px; background: #1C1B1F;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding: 72px; gap: 56px;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: -100px; left: -100px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(103,80,164,0.20) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .left { display: flex; flex-direction: column; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 32px; padding: 0 14px;
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 8px;
+    font-size: 12px; font-weight: 500;
+    color: #CAC4D0; letter-spacing: 0.04em;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+  .tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #D0BCFF; }
+
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 48px; font-weight: 400; line-height: 1.1;
+    color: #E6E1E5; margin-bottom: 24px;
+  }
+  h2 em { color: #D0BCFF; font-style: normal; }
+
+  .body-text {
+    font-size: 16px; font-weight: 300; line-height: 1.7;
+    color: #CAC4D0; margin-bottom: 32px;
+  }
+  .body-text strong { color: #E6E1E5; font-weight: 500; }
+
+  .delete-visual {
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .delete-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #CF6679; margin-bottom: 10px;
+  }
+  .upi-id {
+    font-family: 'Roboto', monospace;
+    font-size: 20px; color: #E6E1E5;
+    position: relative;
+  }
+  .strikethrough {
+    position: absolute; left: 0; top: 50%;
+    width: 100%; height: 2px; background: #CF6679;
+    transform: translateY(-50%);
+  }
+  .replace-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #81C995; margin-bottom: 10px; margin-top: 16px;
+  }
+  .contact-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 36px; padding: 0 16px;
+    background: rgba(79,55,139,0.25);
+    border: 1px solid rgba(208,188,255,0.22);
+    border-radius: 100px;
+    font-size: 14px; font-weight: 500; color: #EADDFF;
+    margin-right: 8px; margin-bottom: 8px;
+  }
+  .contact-avatar {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg, #4F378B, #D0BCFF);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: #381E72;
+  }
+
+  .lesson-box {
+    background: rgba(79,55,139,0.18);
+    border: 1.5px solid rgba(208,188,255,0.22);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-top: auto;
+  }
+  .lesson-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF; margin-bottom: 8px;
+  }
+  .lesson-text {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 20px; font-weight: 400; color: #EADDFF; line-height: 1.5;
+  }
+
+  /* RIGHT side */
+  .right { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+
+  .watch-stack {
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .watch-wrap {
+    position: relative;
+  }
+  .watch-body-svg {
+    width: 200px; height: 250px;
+    border: 2px solid rgba(208,188,255,0.15);
+    border-radius: 52px;
+    background: #2B2836;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .watch-screen-img {
+    width: 160px; height: 160px; border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(208,188,255,0.2);
+  }
+  .watch-caption {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+    text-transform: uppercase; color: #938F99;
+    text-align: center;
+  }
+
+  .arrow-down {
+    font-size: 28px; color: #4F378B; line-height: 1;
+  }
+
+  .before-label, .after-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-align: center;
+  }
+  .before-label { color: #CF6679; }
+  .after-label { color: #81C995; }
+
+  .brand {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 12px; margin-top: 24px;
+  }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #D0BCFF; }
+  .brand-name { font-family: 'Google Sans', sans-serif; font-size: 15px; font-weight: 500; color: #E6E1E5; }
+  .brand-tag { font-size: 13px; color: #938F99; margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="left">
+    <div class="tag">Design Decision</div>
+
+    <h2>I deleted<br>the UPI ID<br><em>input field.</em></h2>
+
+    <p class="body-text">
+      UPI IDs look like this:<br>
+      <strong>firstname.lastname@bankname</strong><br><br>
+      Typing that on a 390px circular screen is nearly impossible. And after talking to users, the insight was obvious in hindsight.
+    </p>
+
+    <div class="delete-visual">
+      <div class="delete-label">Removed</div>
+      <div class="upi-id">
+        ravi.kumar@okicici
+        <div class="strikethrough"></div>
+      </div>
+      <div class="replace-label">Replaced with</div>
+      <span class="contact-chip"><span class="contact-avatar">R</span>Ravi</span>
+      <span class="contact-chip"><span class="contact-avatar">P</span>Priya</span>
+      <span class="contact-chip"><span class="contact-avatar">A</span>Amma</span>
+    </div>
+
+    <div class="lesson-box">
+      <div class="lesson-label">The Lesson</div>
+      <div class="lesson-text">"Remove it" is almost always the right design decision.</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div>
+      <div class="before-label" style="margin-bottom:8px">Before</div>
+      <div class="watch-wrap">
+        <div class="watch-body-svg">
+          <img class="watch-screen-img" src="../screens/pay_upi_input.webp" alt="UPI input screen">
+        </div>
+      </div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div>
+      <div class="after-label" style="margin-bottom:8px">After</div>
+      <div class="watch-wrap">
+        <div class="watch-body-svg">
+          <img class="watch-screen-img" src="../screens/pay_contacts.webp" alt="Saved contacts screen">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">Bhuvaneswaran B</span>
+    <span class="brand-tag">UPI on Wear OS · Product Designer</span>
+  </div>
+</div>
+</body>
+</html>

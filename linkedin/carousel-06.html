@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Carousel 06</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #1C1B1F; font-family: 'Roboto', sans-serif; }
+
+  .card {
+    width: 1080px; height: 1080px; background: #1C1B1F;
+    display: flex; flex-direction: column;
+    padding: 72px; position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; bottom: -150px; right: -150px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(103,80,164,0.22) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .slide-num {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #938F99;
+    margin-bottom: 48px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .slide-num::after { content: ''; flex: 1; height: 1px; background: #49454F; }
+
+  .eyebrow {
+    font-size: 14px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF; margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 54px; font-weight: 400; line-height: 1.1;
+    color: #E6E1E5; margin-bottom: 40px;
+  }
+  h2 strong { color: #D0BCFF; }
+
+  .results-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px; margin-bottom: 40px;
+  }
+  .result-cell {
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 16px;
+    padding: 24px 20px; text-align: center;
+  }
+  .result-val {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 44px; font-weight: 700;
+    color: #81C995; line-height: 1; margin-bottom: 8px;
+  }
+  .result-label { font-size: 13px; color: #938F99; }
+
+  .learnings { display: flex; flex-direction: column; gap: 16px; margin-bottom: auto; }
+  .learning-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .learning-num {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(79,55,139,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 14px; font-weight: 700; color: #D0BCFF;
+    flex-shrink: 0;
+  }
+  .learning-text { display: flex; flex-direction: column; gap: 3px; }
+  .learning-title { font-size: 14px; font-weight: 500; color: #E6E1E5; }
+  .learning-sub { font-size: 12px; color: #938F99; line-height: 1.5; }
+
+  .cta-row {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: 32px;
+  }
+  .cta-btn {
+    height: 48px; padding: 0 32px;
+    border-radius: 100px;
+    background: #D0BCFF; color: #381E72;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px; font-weight: 700;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .cta-btn-outlined {
+    height: 48px; padding: 0 28px;
+    border-radius: 100px;
+    border: 1.5px solid #938F99; background: transparent;
+    color: #CAC4D0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .cta-text { font-size: 13px; color: #938F99; margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="slide-num">6 of 6 &nbsp;·&nbsp; Results & Learnings</div>
+
+  <div class="eyebrow">Prototype Testing</div>
+  <h2>What <strong>worked.</strong><br>What I learned.</h2>
+
+  <div class="results-row">
+    <div class="result-cell">
+      <div class="result-val">100%</div>
+      <div class="result-label">Task success rate<br>across 5 testers</div>
+    </div>
+    <div class="result-cell">
+      <div class="result-val">4</div>
+      <div class="result-label">Average taps per<br>payment</div>
+    </div>
+    <div class="result-cell">
+      <div class="result-val">8s</div>
+      <div class="result-label">Average time to<br>complete payment</div>
+    </div>
+  </div>
+
+  <div class="learnings">
+    <div class="learning-item">
+      <div class="learning-num">1</div>
+      <div class="learning-text">
+        <span class="learning-title">Constraints force clarity</span>
+        <span class="learning-sub">The circular display felt limiting — it forced every element to justify its existence.</span>
+      </div>
+    </div>
+    <div class="learning-item">
+      <div class="learning-num">2</div>
+      <div class="learning-text">
+        <span class="learning-title">"Remove it" is the answer</span>
+        <span class="learning-sub">Dropping QR scanning felt like failure. It made the remaining flows significantly stronger.</span>
+      </div>
+    </div>
+    <div class="learning-item">
+      <div class="learning-num">3</div>
+      <div class="learning-text">
+        <span class="learning-title">Design systems scale</span>
+        <span class="learning-sub">Building MD3 components first saved significant time fixing inconsistencies later.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a class="cta-btn" href="https://boo2018-dotcom.github.io/portfolio/wearos.html">Read Full Case Study ↗</a>
+    <a class="cta-btn-outlined" href="https://www.linkedin.com/in/bhuvaneswaran-b">Connect on LinkedIn</a>
+    <span class="cta-text">Designed by Bhuvaneswaran B · 2024</span>
+  </div>
+</div>
+</body>
+</html>

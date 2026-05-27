@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Carousel 02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #1C1B1F; font-family: 'Roboto', sans-serif; }
+
+  .card {
+    width: 1080px; height: 1080px;
+    background: #1C1B1F;
+    display: flex; flex-direction: column;
+    padding: 72px;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute; bottom: -180px; left: -180px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(103,80,164,0.20) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .slide-num {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #938F99;
+    margin-bottom: 52px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .slide-num::after { content: ''; flex: 1; height: 1px; background: #49454F; }
+
+  .eyebrow {
+    font-size: 14px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF; margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 56px; font-weight: 400; line-height: 1.1;
+    color: #E6E1E5; margin-bottom: 20px;
+  }
+
+  .story-quote {
+    background: #25232A;
+    border-left: 3px solid #D0BCFF;
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    font-size: 19px; line-height: 1.65;
+    color: #CAC4D0; font-style: italic; font-weight: 300;
+    margin-bottom: 40px;
+    max-width: 820px;
+  }
+
+  .gap-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px; margin-bottom: 40px;
+  }
+  .gap-cell {
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 16px;
+    padding: 28px 24px; text-align: center;
+  }
+  .gap-num {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 48px; font-weight: 700;
+    color: #D0BCFF; line-height: 1; margin-bottom: 10px;
+  }
+  .gap-label { font-size: 13px; color: #938F99; line-height: 1.5; }
+
+  .hmw {
+    background: rgba(79,55,139,0.18);
+    border: 1px solid rgba(208,188,255,0.20);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-top: auto;
+  }
+  .hmw-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF; margin-bottom: 8px;
+  }
+  .hmw-text {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 20px; font-weight: 400; color: #EADDFF; line-height: 1.55;
+  }
+
+  .brand {
+    display: flex; align-items: center; gap: 12px; margin-top: 32px;
+  }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #D0BCFF; }
+  .brand-name { font-family: 'Google Sans', sans-serif; font-size: 15px; font-weight: 500; color: #E6E1E5; }
+  .slide-label { font-size: 13px; color: #938F99; margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="slide-num">2 of 6 &nbsp;·&nbsp; The Problem</div>
+
+  <div class="eyebrow">The Problem</div>
+  <h2>A gap nobody filled.</h2>
+
+  <div class="story-quote">
+    "During a morning run, I stopped to buy water and realised I couldn't pay — no wallet, phone at home. My LTE smartwatch had 4G, streamed Spotify. But it couldn't do UPI."
+  </div>
+
+  <div class="gap-row">
+    <div class="gap-cell">
+      <div class="gap-num">500M+</div>
+      <div class="gap-label">Indians use UPI daily</div>
+    </div>
+    <div class="gap-cell">
+      <div class="gap-num">50M+</div>
+      <div class="gap-label">own LTE smartwatches in India</div>
+    </div>
+    <div class="gap-cell">
+      <div class="gap-num">0</div>
+      <div class="gap-label">native UPI apps for Wear OS</div>
+    </div>
+  </div>
+
+  <div class="hmw">
+    <div class="hmw-label">How Might We</div>
+    <div class="hmw-text">Design a lightweight, secure UPI flow for Wear OS that works independently — without needing a smartphone nearby.</div>
+  </div>
+
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">Bhuvaneswaran B</span>
+    <span class="slide-label">UPI on Wear OS — Case Study</span>
+  </div>
+</div>
+</body>
+</html>

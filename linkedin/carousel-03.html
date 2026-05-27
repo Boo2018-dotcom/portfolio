@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Carousel 03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #1C1B1F; font-family: 'Roboto', sans-serif; }
+
+  .card {
+    width: 1080px; height: 1080px; background: #1C1B1F;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding: 72px; gap: 48px;
+    position: relative; overflow: hidden;
+  }
+  .card::after {
+    content: '';
+    position: absolute; top: 50%; right: -100px; transform: translateY(-50%);
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(103,80,164,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .left { display: flex; flex-direction: column; }
+  .right { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  .slide-num {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #938F99;
+    margin-bottom: 48px;
+    display: flex; align-items: center; gap: 12px;
+    grid-column: 1 / -1;
+  }
+  .slide-num::after { content: ''; flex: 1; height: 1px; background: #49454F; }
+
+  .eyebrow {
+    font-size: 14px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF; margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 52px; font-weight: 400; line-height: 1.1;
+    color: #E6E1E5; margin-bottom: 24px;
+  }
+  h2 strong { color: #D0BCFF; }
+
+  .constraints-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: auto; }
+  .constraint-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .constraint-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(79,55,139,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .constraint-text { display: flex; flex-direction: column; gap: 2px; }
+  .constraint-title { font-size: 14px; font-weight: 500; color: #E6E1E5; }
+  .constraint-sub { font-size: 12px; color: #938F99; }
+
+  /* watch display diagram */
+  .watch-diagram {
+    position: relative;
+    width: 300px; height: 360px;
+  }
+  .watch-body {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px; height: 300px;
+    border: 2px solid #49454F;
+    border-radius: 60px;
+    background: #25232A;
+  }
+  .watch-screen {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 2px solid rgba(208,188,255,0.25);
+    background: #302D3E;
+    overflow: hidden;
+  }
+  .zone {
+    position: absolute; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .zone-top { top: 0; height: 27%; background: rgba(207,102,121,0.12); border-radius: 50% 50% 0 0; }
+  .zone-mid { top: 27%; height: 46%; background: rgba(129,201,149,0.10); }
+  .zone-bot { bottom: 0; height: 27%; background: rgba(207,102,121,0.12); border-radius: 0 0 50% 50%; }
+  .zone-label {
+    font-size: 9px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .zone-top .zone-label { color: rgba(207,102,121,0.8); }
+  .zone-mid .zone-label { color: rgba(129,201,149,0.9); }
+  .zone-bot .zone-label { color: rgba(207,102,121,0.8); }
+
+  .success-chip {
+    background: rgba(79,55,139,0.3);
+    border: 1px solid rgba(208,188,255,0.25);
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-size: 14px; font-weight: 500; color: #D0BCFF;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    grid-column: 1 / -1; margin-top: 24px;
+  }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #D0BCFF; }
+  .brand-name { font-family: 'Google Sans', sans-serif; font-size: 15px; font-weight: 500; color: #E6E1E5; }
+  .slide-label { font-size: 13px; color: #938F99; margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="slide-num" style="grid-column:1/-1; display:flex; align-items:center; gap:12px;">
+    3 of 6 &nbsp;·&nbsp; The Constraints
+    <span style="flex:1; height:1px; background:#49454F; display:block;"></span>
+  </div>
+
+  <div class="left">
+    <div class="eyebrow">The Constraints</div>
+    <h2>Designing for<br>the <strong>hardest</strong><br>canvas.</h2>
+
+    <div class="constraints-list">
+      <div class="constraint-item">
+        <div class="constraint-icon">📵</div>
+        <div class="constraint-text">
+          <span class="constraint-title">Phone-independent</span>
+          <span class="constraint-sub">Must work on LTE alone — no companion app open</span>
+        </div>
+      </div>
+      <div class="constraint-item">
+        <div class="constraint-icon">⌨️</div>
+        <div class="constraint-text">
+          <span class="constraint-title">No typing</span>
+          <span class="constraint-sub">390px circular screen makes keyboard unusable</span>
+        </div>
+      </div>
+      <div class="constraint-item">
+        <div class="constraint-icon">📷</div>
+        <div class="constraint-text">
+          <span class="constraint-title">No camera</span>
+          <span class="constraint-sub">QR scanning — the dominant UPI input — is impossible</span>
+        </div>
+      </div>
+      <div class="constraint-item">
+        <div class="constraint-icon">👆</div>
+        <div class="constraint-text">
+          <span class="constraint-title">One-handed use</span>
+          <span class="constraint-sub">Other hand holds a water bottle or metro card</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="watch-diagram">
+      <div class="watch-body"></div>
+      <div class="watch-screen">
+        <div class="zone zone-top"><span class="zone-label">System UI</span></div>
+        <div class="zone zone-mid"><span class="zone-label">✓ Usable</span></div>
+        <div class="zone zone-bot"><span class="zone-label">Hard reach</span></div>
+      </div>
+    </div>
+    <div class="success-chip">Goal: Complete payment in ≤ 4 taps</div>
+  </div>
+
+  <div class="brand" style="grid-column:1/-1;">
+    <div class="brand-dot"></div>
+    <span class="brand-name">Bhuvaneswaran B</span>
+    <span class="slide-label">UPI on Wear OS — Case Study</span>
+  </div>
+</div>
+</body>
+</html>

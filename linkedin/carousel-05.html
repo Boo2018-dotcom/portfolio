@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Carousel 05</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #1C1B1F; font-family: 'Roboto', sans-serif; }
+
+  .card {
+    width: 1080px; height: 1080px; background: #1C1B1F;
+    display: flex; flex-direction: column;
+    padding: 72px 72px 56px; position: relative; overflow: hidden;
+  }
+
+  .slide-num {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #938F99;
+    margin-bottom: 40px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .slide-num::after { content: ''; flex: 1; height: 1px; background: #49454F; }
+
+  .eyebrow {
+    font-size: 14px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF; margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 48px; font-weight: 400; line-height: 1.1;
+    color: #E6E1E5; margin-bottom: 40px;
+  }
+  h2 strong { color: #D0BCFF; }
+
+  .flows {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px; flex: 1;
+  }
+
+  .flow-col {
+    background: #25232A;
+    border: 1px solid #49454F;
+    border-radius: 20px;
+    padding: 24px 20px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .flow-label {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #938F99;
+    margin-bottom: 4px;
+  }
+  .flow-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 18px; font-weight: 500; color: #E6E1E5;
+    margin-bottom: 12px;
+  }
+
+  .watch-frame {
+    width: 100%; aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(208,188,255,0.20);
+    overflow: hidden;
+    background: #302D3E;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .watch-frame img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  }
+
+  .flow-steps {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .flow-step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: #CAC4D0;
+  }
+  .step-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4F378B; flex-shrink: 0;
+  }
+
+  .flow-tap-count {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(79,55,139,0.2);
+    border: 1px solid rgba(208,188,255,0.18);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px; font-weight: 500; color: #D0BCFF;
+    margin-top: auto;
+  }
+  .flow-tap-count::before {
+    content: '👆';
+    font-size: 11px;
+  }
+
+  .brand {
+    display: flex; align-items: center; gap: 12px; margin-top: 28px;
+  }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #D0BCFF; }
+  .brand-name { font-family: 'Google Sans', sans-serif; font-size: 15px; font-weight: 500; color: #E6E1E5; }
+  .slide-label { font-size: 13px; color: #938F99; margin-left: auto; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="slide-num">5 of 6 &nbsp;·&nbsp; The Solution</div>
+
+  <div class="eyebrow">The Solution</div>
+  <h2>Three flows.<br><strong>Zero typing.</strong></h2>
+
+  <div class="flows">
+    <div class="flow-col">
+      <div>
+        <div class="flow-label">Flow 1</div>
+        <div class="flow-title">Tap to Pay</div>
+      </div>
+      <div class="watch-frame">
+        <img src="../screens/tap_nfc_screen.webp" alt="NFC tap screen">
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><span class="step-dot"></span>Select card</div>
+        <div class="flow-step"><span class="step-dot"></span>Tap POS terminal</div>
+        <div class="flow-step"><span class="step-dot"></span>Success / Retry</div>
+      </div>
+      <div class="flow-tap-count">2 taps · ~5 seconds</div>
+    </div>
+
+    <div class="flow-col">
+      <div>
+        <div class="flow-label">Flow 2</div>
+        <div class="flow-title">UPI Payment</div>
+      </div>
+      <div class="watch-frame">
+        <img src="../screens/pay_contacts.webp" alt="Pay contacts screen">
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><span class="step-dot"></span>Select saved contact</div>
+        <div class="flow-step"><span class="step-dot"></span>Enter amount</div>
+        <div class="flow-step"><span class="step-dot"></span>PIN → Success</div>
+      </div>
+      <div class="flow-tap-count">4 taps · ~8 seconds</div>
+    </div>
+
+    <div class="flow-col">
+      <div>
+        <div class="flow-label">Flow 3</div>
+        <div class="flow-title">Balance Check</div>
+      </div>
+      <div class="watch-frame">
+        <img src="../screens/bal_result.webp" alt="Balance result screen">
+      </div>
+      <div class="flow-steps">
+        <div class="flow-step"><span class="step-dot"></span>Select bank</div>
+        <div class="flow-step"><span class="step-dot"></span>Enter PIN</div>
+        <div class="flow-step"><span class="step-dot"></span>View balance</div>
+      </div>
+      <div class="flow-tap-count">3 taps · ~6 seconds</div>
+    </div>
+  </div>
+
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">Bhuvaneswaran B</span>
+    <span class="slide-label">UPI on Wear OS — Case Study</span>
+  </div>
+</div>
+</body>
+</html>
