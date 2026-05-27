@@ -29,128 +29,125 @@
   .tag {
     display: inline-flex; align-items: center; gap: 8px;
     height: 32px; padding: 0 14px;
-    background: #25232A;
-    border: 1px solid #49454F;
-    border-radius: 8px;
-    font-size: 12px; font-weight: 500;
+    background: #25232A; border: 1px solid #49454F;
+    border-radius: 8px; font-size: 12px; font-weight: 500;
     color: #CAC4D0; letter-spacing: 0.04em;
-    margin-bottom: 28px;
-    width: fit-content;
+    margin-bottom: 24px; width: fit-content;
   }
   .tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #D0BCFF; }
 
   h2 {
     font-family: 'Google Sans', sans-serif;
-    font-size: 48px; font-weight: 400; line-height: 1.1;
-    color: #E6E1E5; margin-bottom: 24px;
+    font-size: 44px; font-weight: 400; line-height: 1.1;
+    color: #E6E1E5; margin-bottom: 20px;
   }
   h2 em { color: #D0BCFF; font-style: normal; }
 
   .body-text {
-    font-size: 16px; font-weight: 300; line-height: 1.7;
-    color: #CAC4D0; margin-bottom: 32px;
+    font-size: 15px; font-weight: 300; line-height: 1.7;
+    color: #CAC4D0; margin-bottom: 24px;
   }
   .body-text strong { color: #E6E1E5; font-weight: 500; }
 
-  .delete-visual {
+  /* comparison strip — two options, both crossed */
+  .input-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .option-row {
+    display: flex; align-items: center; gap: 12px;
     background: #25232A;
     border: 1px solid #49454F;
-    border-radius: 16px;
-    padding: 20px 24px;
-    margin-bottom: 24px;
-    position: relative;
+    border-radius: 10px; padding: 12px 16px;
   }
-  .delete-label {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #CF6679; margin-bottom: 10px;
+  .option-cross {
+    font-size: 13px; font-weight: 700; color: #CF6679; flex-shrink: 0; width: 16px;
   }
-  .upi-id {
-    font-family: 'Roboto', monospace;
-    font-size: 20px; color: #E6E1E5;
-    position: relative;
-  }
-  .strikethrough {
-    position: absolute; left: 0; top: 50%;
-    width: 100%; height: 2px; background: #CF6679;
-    transform: translateY(-50%);
-  }
-  .replace-label {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #81C995; margin-bottom: 10px; margin-top: 16px;
-  }
-  .contact-chip {
-    display: inline-flex; align-items: center; gap: 8px;
-    height: 36px; padding: 0 16px;
-    background: rgba(79,55,139,0.25);
-    border: 1px solid rgba(208,188,255,0.22);
-    border-radius: 100px;
-    font-size: 14px; font-weight: 500; color: #EADDFF;
-    margin-right: 8px; margin-bottom: 8px;
-  }
-  .contact-avatar {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: linear-gradient(135deg, #4F378B, #D0BCFF);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; color: #381E72;
-  }
+  .option-label { font-size: 14px; color: #CAC4D0; }
+  .option-reason { font-size: 12px; color: #938F99; margin-left: auto; text-align: right; max-width: 200px; }
 
-  .lesson-box {
+  .option-row.chosen {
+    background: rgba(79,55,139,0.20);
+    border-color: rgba(208,188,255,0.22);
+  }
+  .option-check { font-size: 13px; font-weight: 700; color: #81C995; flex-shrink: 0; width: 16px; }
+  .option-row.chosen .option-label { color: #EADDFF; font-weight: 500; }
+  .option-row.chosen .option-reason { color: #D0BCFF; }
+
+  .insight-box {
     background: rgba(79,55,139,0.18);
     border: 1.5px solid rgba(208,188,255,0.22);
-    border-radius: 16px;
-    padding: 24px 28px;
+    border-radius: 14px; padding: 20px 24px;
     margin-top: auto;
   }
-  .lesson-label {
+  .insight-label {
     font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
     text-transform: uppercase; color: #D0BCFF; margin-bottom: 8px;
   }
-  .lesson-text {
+  .insight-text {
     font-family: 'Google Sans', sans-serif;
-    font-size: 20px; font-weight: 400; color: #EADDFF; line-height: 1.5;
+    font-size: 18px; font-weight: 400; color: #EADDFF; line-height: 1.5;
   }
+  .insight-text em { color: #D0BCFF; font-style: normal; font-weight: 500; }
 
-  /* RIGHT side */
-  .right { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
+  /* Right */
+  .right { display: flex; flex-direction: column; justify-content: center; gap: 20px; }
 
-  .watch-stack {
-    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  .context-card {
+    background: #25232A; border: 1px solid #49454F;
+    border-radius: 16px; padding: 20px 24px;
   }
-  .watch-wrap {
-    position: relative;
-  }
-  .watch-body-svg {
-    width: 200px; height: 250px;
-    border: 2px solid rgba(208,188,255,0.15);
-    border-radius: 52px;
-    background: #2B2836;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .watch-screen-img {
-    width: 160px; height: 160px; border-radius: 50%;
-    object-fit: cover;
-    border: 1.5px solid rgba(208,188,255,0.2);
-  }
-  .watch-caption {
-    font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
-    text-transform: uppercase; color: #938F99;
-    text-align: center;
-  }
-
-  .arrow-down {
-    font-size: 28px; color: #4F378B; line-height: 1;
-  }
-
-  .before-label, .after-label {
+  .context-label {
     font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; text-align: center;
+    text-transform: uppercase; margin-bottom: 12px;
   }
-  .before-label { color: #CF6679; }
-  .after-label { color: #81C995; }
+  .context-label.existing { color: #938F99; }
+  .context-label.problem  { color: #CF6679; }
+  .context-label.solution { color: #81C995; }
+
+  .upi-formats { display: flex; flex-direction: column; gap: 8px; margin-bottom: 0; }
+  .upi-format-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: #302D3E; border-radius: 8px;
+  }
+  .format-type { font-size: 11px; font-weight: 500; color: #938F99; width: 90px; flex-shrink: 0; }
+  .format-val { font-family: 'Roboto Mono', monospace; font-size: 13px; color: #E6E1E5; }
+  .format-len { font-size: 11px; color: #938F99; margin-left: auto; }
+
+  .watch-frame {
+    width: 120px; height: 120px; border-radius: 50%;
+    border: 1.5px solid rgba(208,188,255,0.2);
+    overflow: hidden; flex-shrink: 0;
+  }
+  .watch-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+  .solution-row {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .solution-text { flex: 1; }
+  .solution-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 18px; font-weight: 500; color: #E6E1E5; margin-bottom: 6px;
+  }
+  .solution-sub { font-size: 13px; color: #938F99; line-height: 1.5; }
+
+  .contact-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .contact-chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    height: 32px; padding: 0 14px;
+    background: rgba(79,55,139,0.25);
+    border: 1px solid rgba(208,188,255,0.22);
+    border-radius: 100px;
+    font-size: 13px; font-weight: 500; color: #EADDFF;
+  }
+  .avatar {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: linear-gradient(135deg, #4F378B, #D0BCFF);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: #381E72;
+  }
 
   .brand {
     grid-column: 1 / -1;
-    display: flex; align-items: center; gap: 12px; margin-top: 24px;
+    display: flex; align-items: center; gap: 12px; margin-top: 20px;
   }
   .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #D0BCFF; }
   .brand-name { font-family: 'Google Sans', sans-serif; font-size: 15px; font-weight: 500; color: #E6E1E5; }
@@ -162,47 +159,84 @@
   <div class="left">
     <div class="tag">Design Decision</div>
 
-    <h2>I deleted<br>the UPI ID<br><em>input field.</em></h2>
+    <h2>The problem isn't<br>UPI IDs.<br>It's <em>any typing</em><br>on a watch.</h2>
 
     <p class="body-text">
-      UPI IDs look like this:<br>
-      <strong>firstname.lastname@bankname</strong><br><br>
-      Typing that on a 390px circular screen is nearly impossible. And after talking to users, the insight was obvious in hindsight.
+      UPI already lets you pay via mobile number — you don't need to type a long UPI ID. But even <strong>10 digits are unreliable</strong> one-handed on a 390px circular screen, mid-run.
     </p>
 
-    <div class="delete-visual">
-      <div class="delete-label">Removed</div>
-      <div class="upi-id">
-        ravi.kumar@okicici
-        <div class="strikethrough"></div>
+    <div class="input-options">
+      <div class="option-row">
+        <span class="option-cross">✕</span>
+        <span class="option-label">Type mobile number</span>
+        <span class="option-reason">10 digits, error-prone in motion</span>
       </div>
-      <div class="replace-label">Replaced with</div>
-      <span class="contact-chip"><span class="contact-avatar">R</span>Ravi</span>
-      <span class="contact-chip"><span class="contact-avatar">P</span>Priya</span>
-      <span class="contact-chip"><span class="contact-avatar">A</span>Amma</span>
+      <div class="option-row">
+        <span class="option-cross">✕</span>
+        <span class="option-label">Type UPI ID</span>
+        <span class="option-reason">Long format, tiny keys</span>
+      </div>
+      <div class="option-row">
+        <span class="option-cross">✕</span>
+        <span class="option-label">Voice input</span>
+        <span class="option-reason">Awkward in public</span>
+      </div>
+      <div class="option-row">
+        <span class="option-cross">✕</span>
+        <span class="option-label">QR scan</span>
+        <span class="option-reason">No camera on watch</span>
+      </div>
+      <div class="option-row chosen">
+        <span class="option-check">✓</span>
+        <span class="option-label">Saved contacts</span>
+        <span class="option-reason">Sync once, tap forever</span>
+      </div>
     </div>
 
-    <div class="lesson-box">
-      <div class="lesson-label">The Lesson</div>
-      <div class="lesson-text">"Remove it" is almost always the right design decision.</div>
+    <div class="insight-box">
+      <div class="insight-label">The Insight</div>
+      <div class="insight-text">Most payments repeat.<br><em>Eliminate typing entirely</em> — not just shorten it.</div>
     </div>
   </div>
 
   <div class="right">
-    <div>
-      <div class="before-label" style="margin-bottom:8px">Before</div>
-      <div class="watch-wrap">
-        <div class="watch-body-svg">
-          <img class="watch-screen-img" src="../screens/pay_upi_input.webp" alt="UPI input screen">
+    <div class="context-card">
+      <div class="context-label existing">What UPI already supports</div>
+      <div class="upi-formats">
+        <div class="upi-format-row">
+          <span class="format-type">UPI ID</span>
+          <span class="format-val">ravi.k@okicici</span>
+          <span class="format-len">Long</span>
+        </div>
+        <div class="upi-format-row">
+          <span class="format-type">Mobile no.</span>
+          <span class="format-val">98XXXXXXXX</span>
+          <span class="format-len">10 digits</span>
         </div>
       </div>
     </div>
-    <div class="arrow-down">↓</div>
-    <div>
-      <div class="after-label" style="margin-bottom:8px">After</div>
-      <div class="watch-wrap">
-        <div class="watch-body-svg">
-          <img class="watch-screen-img" src="../screens/pay_contacts.webp" alt="Saved contacts screen">
+
+    <div class="context-card">
+      <div class="context-label problem">Still a watch problem</div>
+      <p style="font-size:14px; color:#CAC4D0; line-height:1.6;">
+        Even 10 digits typed on a circular screen, one-handed, while moving = errors. The format doesn't matter — the act of typing does.
+      </p>
+    </div>
+
+    <div class="context-card">
+      <div class="context-label solution">The solution</div>
+      <div class="solution-row">
+        <div class="watch-frame">
+          <img src="../screens/pay_contacts.webp" alt="Saved contacts screen">
+        </div>
+        <div class="solution-text">
+          <div class="solution-title">Saved contacts</div>
+          <div class="solution-sub">Synced from phone app once. On the watch, every payment is a tap — not a keystroke.</div>
+          <div class="contact-chips">
+            <span class="contact-chip"><span class="avatar">R</span>Ravi</span>
+            <span class="contact-chip"><span class="avatar">P</span>Priya</span>
+            <span class="contact-chip"><span class="avatar">A</span>Amma</span>
+          </div>
         </div>
       </div>
     </div>

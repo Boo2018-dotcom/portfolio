@@ -37,31 +37,31 @@ Full case study: boo2018-dotcom.github.io/portfolio/wearos.html
 ---
 
 ## Post 2 — Design Decision (single image)
-**Attach:** Screenshot of post2-decision.html
+**Attach:** post2-decision.jpg
 **Post at:** Thursday 8:30 AM IST
 
 ```
-One decision that made my Wear OS UPI design 10× better:
+The UPI recipient problem on a smartwatch isn't about UPI IDs being long.
 
-I deleted the UPI ID input field entirely.
+UPI already lets you pay via mobile number. 10 digits. Much shorter.
 
-UPI IDs look like this: firstname.lastname@bankname
+Still broken on a watch.
 
-Typing that on a 390px circular watch screen? Nearly impossible.
+10 digits, one-handed, on a 390px circular screen, mid-run = errors every time.
 
-But user research revealed something obvious in hindsight:
+The format doesn't matter. The act of typing does.
 
-Most people pay the same 5–10 contacts repeatedly.
+So I eliminated typing entirely.
 
-So instead of typing, I built saved contacts that sync from the phone app once. Every repeat payment after that? One tap.
+Most payments repeat — same chai stall, same friend, same auto. Sync your frequent contacts once from the phone app. On the watch, every payment is a tap.
 
 The result: Zero typing for ~90% of payment scenarios.
 
-The real lesson: "Remove it" is almost always the right call. The best design decision I made on this project wasn't adding something — it was deleting something.
+The insight wasn't "make it shorter to type." It was "don't type at all."
 
-What's a feature you deleted that made your product better?
+What UX problem have you solved by removing the interaction entirely?
 
-#UXDesign #ProductDesign #Fintech
+#UXDesign #ProductDesign #Fintech #WearOS
 ```
 
 ---
