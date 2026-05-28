@@ -159,22 +159,17 @@
   <div class="left">
     <div class="tag">Design Decision</div>
 
-    <h2>The problem isn't<br>UPI IDs.<br>It's <em>any typing</em><br>on a watch.</h2>
+    <h2>Not one solution.<br><em>Two paths.</em><br>Zero keyboards.</h2>
 
     <p class="body-text">
-      UPI already lets you pay via mobile number — you don't need to type a long UPI ID. But even <strong>10 digits are unreliable</strong> one-handed on a circular watch screen, mid-run.
+      Text keyboards and QR scanning were out. What remained: two complementary paths depending on <strong>who you're paying</strong>.
     </p>
 
     <div class="input-options">
       <div class="option-row">
         <span class="option-cross">✕</span>
-        <span class="option-label">Type mobile number</span>
-        <span class="option-reason">10 digits, error-prone in motion</span>
-      </div>
-      <div class="option-row">
-        <span class="option-cross">✕</span>
-        <span class="option-label">Type UPI ID</span>
-        <span class="option-reason">Long format, tiny keys</span>
+        <span class="option-label">Text keyboard</span>
+        <span class="option-reason">Too small, error-prone on round display</span>
       </div>
       <div class="option-row">
         <span class="option-cross">✕</span>
@@ -188,14 +183,19 @@
       </div>
       <div class="option-row chosen">
         <span class="option-check">✓</span>
+        <span class="option-label">Numpad → mobile number</span>
+        <span class="option-reason">New recipient, large-tap keys</span>
+      </div>
+      <div class="option-row chosen">
+        <span class="option-check">✓</span>
         <span class="option-label">Saved contacts</span>
-        <span class="option-reason">Sync once, tap forever</span>
+        <span class="option-reason">Repeat payment, one tap</span>
       </div>
     </div>
 
     <div class="insight-box">
       <div class="insight-label">The Insight</div>
-      <div class="insight-text">Most payments repeat.<br><em>Eliminate typing entirely</em> — not just shorten it.</div>
+      <div class="insight-text">Mobile number = UPI ID.<br>Numpad for new. <em>Saved contacts for repeat.</em></div>
     </div>
   </div>
 
@@ -217,9 +217,9 @@
     </div>
 
     <div class="context-card">
-      <div class="context-label problem">Still a watch problem</div>
+      <div class="context-label problem">What was ruled out</div>
       <p style="font-size:14px; color:#CAC4D0; line-height:1.6;">
-        Even 10 digits typed on a circular screen, one-handed, while moving = errors. The format doesn't matter — the act of typing does.
+        Text keyboards, voice input, QR scanning — none work on a circular watch display. The numpad is the right input surface for digits.
       </p>
     </div>
 

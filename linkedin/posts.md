@@ -41,25 +41,22 @@ Full case study: boo2018-dotcom.github.io/portfolio/wearos.html
 **Post at:** Thursday 8:30 AM IST
 
 ```
-The UPI recipient problem on a smartwatch isn't about UPI IDs being long.
+The UPI recipient problem on a smartwatch isn't one problem. It's two.
 
-UPI already lets you pay via mobile number. 10 digits. Much shorter.
+Problem 1: Paying someone new.
+Problem 2: Paying someone you pay regularly.
 
-Still broken on a watch.
+Same screen. Different solutions.
 
-10 digits, one-handed, on a circular watch screen, mid-run = errors every time.
+For new recipients — mobile numbers double as UPI IDs. I built a large-key numpad on the watch. 10 deliberate taps, no keyboard errors.
 
-The format doesn't matter. The act of typing does.
+For repeat payments — most people pay the same 5–10 contacts. Sync them from your phone once. On the watch, it's one tap.
 
-So I eliminated typing entirely.
+Two paths. Zero keyboards.
 
-Most payments repeat — same chai stall, same friend, same auto. Sync your frequent contacts once from the phone app. On the watch, every payment is a tap.
+The mistake I almost made: designing one solution for both problems and getting neither right.
 
-The result: Zero typing for ~90% of payment scenarios.
-
-The insight wasn't "make it shorter to type." It was "don't type at all."
-
-What UX problem have you solved by removing the interaction entirely?
+What's a problem you solved better by splitting it in two?
 
 #UXDesign #ProductDesign #Fintech #WearOS
 ```
