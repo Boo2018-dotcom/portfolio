@@ -93,6 +93,11 @@
     font-size: 12px; font-weight: 500; color: #D0BCFF;
     margin-top: auto;
   }
+  .footnote {
+    font-size: 11px; color: #938F99; font-style: italic;
+    padding-top: 12px; border-top: 1px solid #49454F;
+    margin-top: 4px;
+  }
   .flow-tap-count::before {
     content: '👆';
     font-size: 11px;
@@ -143,7 +148,7 @@
         <div class="flow-step"><span class="step-dot"></span>Enter amount</div>
         <div class="flow-step"><span class="step-dot"></span>PIN → Success</div>
       </div>
-      <div class="flow-tap-count">4 taps · ~8 seconds</div>
+      <div class="flow-tap-count">4 taps* · ~8 seconds</div>
     </div>
 
     <div class="flow-col">
@@ -159,9 +164,11 @@
         <div class="flow-step"><span class="step-dot"></span>Enter PIN</div>
         <div class="flow-step"><span class="step-dot"></span>View balance</div>
       </div>
-      <div class="flow-tap-count">3 taps · ~6 seconds</div>
+      <div class="flow-tap-count">3 taps* · ~6 seconds</div>
     </div>
   </div>
+
+  <p class="footnote">* tap count excludes UPI PIN digit entry</p>
 
   <div class="brand">
     <div class="brand-dot"></div>
