@@ -80,24 +80,19 @@
   .learning-title { font-size: 14px; font-weight: 500; color: #E6E1E5; }
   .learning-sub { font-size: 12px; color: #938F99; line-height: 1.5; }
 
-  .cta-row {
+  .brand-credit {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: 32px;
     border-top: 1px solid #49454F;
-    padding-top: 24px;
+    padding-top: 20px;
   }
-  .cta-main {
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .cta-main-label {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: #D0BCFF;
-  }
-  .cta-main-text {
+  .brand-credit-name {
+    display: flex; align-items: center; gap: 12px;
     font-family: 'Google Sans', sans-serif;
-    font-size: 18px; font-weight: 400; color: #E6E1E5;
+    font-size: 15px; font-weight: 500; color: #E6E1E5;
   }
-  .cta-credit { font-size: 13px; color: #938F99; text-align: right; }
+  .brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #D0BCFF; }
+  .brand-credit-role { font-size: 13px; color: #938F99; }
 </style>
 </head>
 <body>
@@ -146,12 +141,9 @@
     </div>
   </div>
 
-  <div class="cta-row">
-    <div class="cta-main">
-      <span class="cta-main-label">Full case study</span>
-      <span class="cta-main-text">Link in the comments ↓</span>
-    </div>
-    <span class="cta-credit">Designed by Bhuvaneswaran B · 2024</span>
+  <div class="brand-credit">
+    <span class="brand-credit-name"><span class="brand-dot"></span>Bhuvaneswaran B</span>
+    <span class="brand-credit-role">Product Designer · 2024</span>
   </div>
 </div>
 </body>
