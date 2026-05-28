@@ -23,7 +23,7 @@ I spent the last few months fixing that.
 
 This is India's first native UPI experience for Wear OS — designed for the phone-free moments that matter most.
 
-The constraint that changed everything: a 396px circular screen (Galaxy Watch 4, 40mm) where freeform text input is unreliable.
+The constraint that changed everything: a circular watch display where freeform text input is unreliable.
 
 My solution: eliminate typing where possible, optimise it where unavoidable.
 
@@ -47,7 +47,7 @@ UPI already lets you pay via mobile number. 10 digits. Much shorter.
 
 Still broken on a watch.
 
-10 digits, one-handed, on a 396px circular screen, mid-run = errors every time.
+10 digits, one-handed, on a circular watch screen, mid-run = errors every time.
 
 The format doesn't matter. The act of typing does.
 
@@ -105,7 +105,7 @@ What's a design pattern you've had to completely unlearn when moving to a new fo
 ```
 "Designing within constraints is just... designing."
 
-I didn't fully believe this until I had to fit a complete UPI payment flow into 396px.
+I didn't fully believe this until I had to fit a complete UPI payment flow onto a circular watch display.
 
 You can't hide bad decisions on a tiny screen.
 
