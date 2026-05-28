@@ -81,29 +81,23 @@
   .learning-sub { font-size: 12px; color: #938F99; line-height: 1.5; }
 
   .cta-row {
-    display: flex; align-items: center; gap: 16px;
+    display: flex; align-items: center; justify-content: space-between;
     margin-top: 32px;
+    border-top: 1px solid #49454F;
+    padding-top: 24px;
   }
-  .cta-btn {
-    height: 48px; padding: 0 32px;
-    border-radius: 100px;
-    background: #D0BCFF; color: #381E72;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px; font-weight: 700;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px;
+  .cta-main {
+    display: flex; flex-direction: column; gap: 4px;
   }
-  .cta-btn-outlined {
-    height: 48px; padding: 0 28px;
-    border-radius: 100px;
-    border: 1.5px solid #938F99; background: transparent;
-    color: #CAC4D0;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px; font-weight: 500;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px;
+  .cta-main-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #D0BCFF;
   }
-  .cta-text { font-size: 13px; color: #938F99; margin-left: auto; }
+  .cta-main-text {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 18px; font-weight: 400; color: #E6E1E5;
+  }
+  .cta-credit { font-size: 13px; color: #938F99; text-align: right; }
 </style>
 </head>
 <body>
@@ -153,9 +147,11 @@
   </div>
 
   <div class="cta-row">
-    <a class="cta-btn" href="https://boo2018-dotcom.github.io/portfolio/wearos.html">Read Full Case Study ↗</a>
-    <a class="cta-btn-outlined" href="https://www.linkedin.com/in/bhuvaneswaran-b">Connect on LinkedIn</a>
-    <span class="cta-text">Designed by Bhuvaneswaran B · 2024</span>
+    <div class="cta-main">
+      <span class="cta-main-label">Full case study</span>
+      <span class="cta-main-text">Link in the comments ↓</span>
+    </div>
+    <span class="cta-credit">Designed by Bhuvaneswaran B · 2024</span>
   </div>
 </div>
 </body>
