@@ -23,9 +23,9 @@ I spent the last few months fixing that.
 
 This is India's first native UPI experience for Wear OS — designed for the phone-free moments that matter most.
 
-The constraint that changed everything: a 390px circular display with no keyboard.
+The constraint that changed everything: a 390px circular screen where freeform text input is unreliable.
 
-My solution: Don't make users type. Let them confirm.
+My solution: eliminate typing where possible, optimise it where unavoidable.
 
 ↓ Swipe through for the full design breakdown
 
